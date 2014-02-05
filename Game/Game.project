@@ -34,8 +34,14 @@
       <File Name="glfwapplication.h"/>
       <File Name="glfwwindow.cpp"/>
       <File Name="glfwwindow.h"/>
-      <File Name="types.cpp"/>
+    </VirtualDirectory>
+    <File Name="window.h"/>
+    <File Name="window.cpp"/>
+    <VirtualDirectory Name="Math">
       <File Name="types.h"/>
+      <File Name="types.cpp"/>
+      <File Name="vec3f.h"/>
+      <File Name="vec3f.cpp"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">

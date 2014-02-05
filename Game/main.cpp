@@ -1,10 +1,10 @@
 #include "glfwapplication.h"
-#include "glfwwindow.h"
+#include "window.h"
 
 int main(int argc, char * argv[]) {
    GLFWApplication app;
 
-   app.addWindow(new GLFWWindow(Size2i(800, 600), std::string("Testwindow")));
+   app.addWindow(new Window());
 
    return app.execute();
 }
