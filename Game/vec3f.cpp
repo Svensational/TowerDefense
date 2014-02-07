@@ -1,4 +1,5 @@
 #include "vec3f.h"
+#include <cmath>
 
 Vec3f::Vec3f(float x, float y, float z) :
    elements{x, y, z}
@@ -27,6 +28,18 @@ Vec3f Vec3f::crossProd(Vec3f const & vec) {
    return Vec3f(elements[1]*vec.elements[2]-elements[2]*vec.elements[1],
                 elements[2]*vec.elements[0]-elements[0]*vec.elements[2],
                 elements[0]*vec.elements[1]-elements[1]*vec.elements[0]);
+}
+
+float Vec3f::length() {
+   return sqrt(dotProd(*this));
+}
+
+Vec3f Vec3f::normalized() {
+   return *this / length();
+}
+
+Vec3f & Vec3f::normalize() {
+   return operator/=(length());
 }
 
 Vec3f Vec3f::operator+(Vec3f const & vec) const {
@@ -109,9 +122,9 @@ Point3f & Point3f::operator+=(Vec3f const & vec) {
 }
 
 Vec3f Point3f::operator-(Point3f const & point) const {
-   return Vec3f(point.elements[0]-elements[0],
-                point.elements[1]-elements[1],
-                point.elements[2]-elements[2]);
+   return Vec3f(elements[0]-point.elements[0],
+                elements[1]-point.elements[1],
+                elements[2]-point.elements[2]);
 }
 
 Point3f Point3f::operator-(Vec3f const & vec) const {
@@ -123,4 +136,8 @@ Point3f & Point3f::operator-=(Vec3f const & vec) {
       elements[i]-=vec.elements[i];
    }
    return *this;
+}
+
+Point3f::operator float const * () const {
+   return elements.data();
 }

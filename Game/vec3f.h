@@ -25,6 +25,9 @@ public:
    operator float const * () const;
    float dotProd(Vec3f const & vec);
    Vec3f crossProd(Vec3f const & vec);
+   float length();
+   Vec3f normalized();
+   Vec3f & normalize();
 
 private:
    std::array<float, 3> elements;
@@ -43,8 +46,10 @@ public:
    Vec3f operator-(Point3f const & point) const;
    Point3f & operator+=(Vec3f const & vec);
    Point3f & operator-=(Vec3f const & vec);
+   operator float const * () const;
 
 private:
    std::array<float, 3> elements;
 };
+
 #endif // VEC3F_H

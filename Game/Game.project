@@ -38,10 +38,12 @@
     <File Name="window.h"/>
     <File Name="window.cpp"/>
     <VirtualDirectory Name="Math">
-      <File Name="types.h"/>
-      <File Name="types.cpp"/>
+      <File Name="types.h" ExcludeProjConfig=""/>
+      <File Name="types.cpp" ExcludeProjConfig=""/>
       <File Name="vec3f.h"/>
       <File Name="vec3f.cpp"/>
+      <File Name="vec2f.h" ExcludeProjConfig="Release"/>
+      <File Name="vec2f.cpp" ExcludeProjConfig="Release"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
