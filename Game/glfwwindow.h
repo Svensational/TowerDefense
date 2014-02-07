@@ -1,7 +1,8 @@
 #ifndef GLFWWINDOW_H
 #define GLFWWINDOW_H
 
-#include "types.h"
+#include "size2i.h"
+#include "vec2f.h"
 
 class GLFWwindow;
 class GLFWApplication;
