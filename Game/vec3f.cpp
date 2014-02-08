@@ -1,8 +1,16 @@
 #include "vec3f.h"
 #include <cmath>
+#include "vec2f.h"
 
 Vec3f::Vec3f(float x, float y, float z) :
    elements{x, y, z}
+{
+}
+
+Vec3f::Vec3f(Vec2f const & vec, float z) :
+   elements{vec.elements[0],
+            vec.elements[1],
+            z}
 {
 }
 

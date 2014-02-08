@@ -27,21 +27,21 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
+    <File Name="window.h"/>
+    <File Name="window.cpp"/>
     <VirtualDirectory Name="Helper">
       <File Name="gl_core_4_4.c"/>
       <File Name="gl_core_4_4.h"/>
-      <File Name="glfwapplication.cpp"/>
       <File Name="glfwapplication.h"/>
-      <File Name="glfwwindow.cpp"/>
+      <File Name="glfwapplication.cpp"/>
       <File Name="glfwwindow.h"/>
+      <File Name="glfwwindow.cpp"/>
     </VirtualDirectory>
-    <File Name="window.h"/>
-    <File Name="window.cpp"/>
     <VirtualDirectory Name="Math">
       <File Name="vec3f.h"/>
       <File Name="vec3f.cpp"/>
-      <File Name="vec2f.h" ExcludeProjConfig=""/>
-      <File Name="vec2f.cpp" ExcludeProjConfig=""/>
+      <File Name="vec2f.h"/>
+      <File Name="vec2f.cpp"/>
       <File Name="size2i.h"/>
       <File Name="size2i.cpp"/>
     </VirtualDirectory>

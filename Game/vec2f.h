@@ -2,13 +2,16 @@
 #define VEC2F_H
 #include <array>
 
+class Vec3f;
 class Point2f;
 
 class Vec2f {
+   friend class Vec3f;
    friend class Point2f;
 
 public:
    Vec2f(float x = 0.0f, float y = 0.0f);
+   explicit Vec2f(Vec3f const & vec);
    explicit Vec2f(Point2f const & point);
    Vec2f(Point2f const & a, Point2f const & b);
    Vec2f operator+(Vec2f const & vec) const;
