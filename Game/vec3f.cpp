@@ -61,6 +61,12 @@ Vec3f & Vec3f::operator+=(Vec3f const & vec) {
    return *this;
 }
 
+Vec3f Vec3f::operator-() const {
+   return Vec3f(-elements[0],
+                -elements[1],
+                -elements[2]);
+}
+
 Vec3f Vec3f::operator-(Vec3f const & vec) const {
    return Vec3f(*this)-=vec;
 }

@@ -14,6 +14,7 @@ public:
    Vec3f(Vec2f const & vec, float z = 0.0f);
    explicit Vec3f(Point3f const & point);
    Vec3f(Point3f const & a, Point3f const & b);
+   Vec3f operator-() const;
    Vec3f operator+(Vec3f const & vec) const;
    Vec3f operator-(Vec3f const & vec) const;
    Vec3f & operator+=(Vec3f const & vec);
