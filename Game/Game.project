@@ -50,6 +50,10 @@
     <VirtualDirectory Name="OpenGL">
       <File Name="bufferobject.cpp"/>
       <File Name="bufferobject.h"/>
+      <File Name="vertexbufferobject.cpp"/>
+      <File Name="vertexbufferobject.h"/>
+      <File Name="indexbufferobject.cpp"/>
+      <File Name="indexbufferobject.h"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
