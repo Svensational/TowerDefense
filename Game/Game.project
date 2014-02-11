@@ -47,6 +47,10 @@
       <File Name="mat4x4f.h"/>
       <File Name="mat4x4f.cpp"/>
     </VirtualDirectory>
+    <VirtualDirectory Name="OpenGL">
+      <File Name="bufferobject.cpp"/>
+      <File Name="bufferobject.h"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
     <File Name="../.gitignore"/>
