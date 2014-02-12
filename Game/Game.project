@@ -54,6 +54,8 @@
       <File Name="vertexbufferobject.h"/>
       <File Name="indexbufferobject.cpp"/>
       <File Name="indexbufferobject.h"/>
+      <File Name="vertexarrayobject.h"/>
+      <File Name="vertexarrayobject.cpp"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">

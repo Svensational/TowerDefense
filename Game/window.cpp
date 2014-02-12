@@ -4,7 +4,6 @@
 Window::Window() :
    GLFWWindow(Size2i(800, 600), std::string("Tower Defense"))
 {
-   hideCursor();
 }
 
 Window::~Window() {
