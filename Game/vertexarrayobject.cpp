@@ -13,6 +13,18 @@ void VertexArrayObject::bind() const {
    glBindVertexArray(name);
 }
 
+void VertexArrayObject::disableVertexAttributeArray(unsigned int index) const {
+   glDisableVertexAttribArray(index);
+}
+
+void VertexArrayObject::enableVertexAttributeArray(unsigned int index) const {
+   glEnableVertexAttribArray(index);
+}
+
 void VertexArrayObject::unbind() {
    glBindVertexArray(0);
+}
+
+void VertexArrayObject::vertexAttributePointer(unsigned int index, int size, int type, bool normalized, int stride, int offset) {
+   glVertexAttribPointer(index, size, type, normalized, stride, reinterpret_cast<void*>(offset));
 }
