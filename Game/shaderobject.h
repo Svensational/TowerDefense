@@ -1,5 +1,6 @@
 #ifndef SHADEROBJECT_H
 #define SHADEROBJECT_H
+#include <string>
 
 class ProgramObject;
 
@@ -21,8 +22,9 @@ public:
 
    ShaderObject(Type type);
    virtual ~ShaderObject();
-   //ShaderSource
-   void compile() const;
+   void setSourceCode(std::string const & filename) const;
+   bool compile() const;
+   std::string getLog() const;
 
 private:
    unsigned int name;

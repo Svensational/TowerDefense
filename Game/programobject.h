@@ -9,11 +9,13 @@ class ProgramObject {
 public:
    ProgramObject();
    virtual ~ProgramObject();
-   void attachShader(ShaderObject const & shader);
-   void detachShader(ShaderObject const & shader);
-   void bindAttributeLocation(int index, std::string attribName);
-   int getAttributeLocation(std::string attribName);
-   void link();
+   void attachShader(ShaderObject const & shader) const;
+   void detachShader(ShaderObject const & shader) const;
+   void bindAttributeLocation(int index, std::string attribName) const;
+   int getAttributeLocation(std::string attribName) const;
+   bool link() const;
+   void use() const;
+   std::string getLog() const;
 
 private:
    unsigned int name;
