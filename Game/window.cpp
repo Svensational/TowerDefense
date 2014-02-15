@@ -1,5 +1,6 @@
 #include "window.h"
 #include "gl_core_4_4.h"
+#include "vertex.h"
 #include <iostream>
 
 Window::Window() :
@@ -36,21 +37,23 @@ void Window::initGL() {
    testVBO.bind();
    testProgram.use();
 
-   testVBO.createStorage(BufferObject::STATIC_DRAW, 3*3*sizeof(float));
-   float * it = (float *)testVBO.map(BufferObject::WRITE_ONLY);
+   testVBO.createStorage(BufferObject::STATIC_DRAW, 3*sizeof(Vertex_V3F));
+   Vertex_V3F * it = (Vertex_V3F *)testVBO.map(BufferObject::WRITE_ONLY);
 
    // simple triangle
-   *it++ = -0.5f;
-   *it++ = -0.5f;
-   *it++ = -0.5f;
+   it->x = -0.5f;
+   it->y = -0.5f;
+   it->z = -0.5f;
+   ++it;
 
-   *it++ = 0.5f;
-   *it++ = -0.5f;
-   *it++ = -0.5f;
+   it->x = 0.5f;
+   it->y = -0.5f;
+   it->z = -0.5f;
+   ++it;
 
-   *it++ = 0.0f;
-   *it++ = 0.5f;
-   *it++ = -0.5f;
+   it->x = 0.0f;
+   it->y = 0.5f;
+   it->z = -0.5f;
    testVBO.unmap();
 
    int index = testProgram.getAttributeLocation("position");
@@ -65,6 +68,6 @@ void Window::onResized(Size2i newSize) {
 
 void Window::update(double deltaTime) {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   testVBO.draw(VBO::TRIANGLES, sizeof(float)*3);
+   testVBO.draw(VBO::TRIANGLES, sizeof(Vertex_V3F));
    swapBuffers();
 }

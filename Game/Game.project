@@ -60,6 +60,7 @@
       <File Name="shaderobject.cpp"/>
       <File Name="programobject.h"/>
       <File Name="programobject.cpp"/>
+      <File Name="vertex.h"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
