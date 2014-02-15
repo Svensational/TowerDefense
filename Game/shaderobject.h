@@ -22,7 +22,8 @@ public:
 
    ShaderObject(Type type);
    virtual ~ShaderObject();
-   void setSourceCode(std::string const & filename) const;
+   void setSource(std::string const & source) const;
+   bool loadSource(std::string const & filename) const;
    bool compile() const;
    std::string getLog() const;
 

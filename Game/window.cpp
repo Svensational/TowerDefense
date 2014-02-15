@@ -18,10 +18,10 @@ void Window::initGL() {
    hideCursor();
    enableVSync();
 
-   testVertexShader.setSourceCode("shaders/default.vertex.glsl");
+   testVertexShader.loadSource("shaders/default.vertex.glsl");
    testVertexShader.compile();
 
-   testFragmentShader.setSourceCode("shaders/default.fragment.glsl");
+   testFragmentShader.loadSource("shaders/default.fragment.glsl");
    testFragmentShader.compile();
 
    testProgram.attachShader(testVertexShader);
