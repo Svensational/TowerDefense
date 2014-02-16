@@ -16,7 +16,7 @@ Window::~Window() {
 }
 
 void Window::initGL() {
-   hideCursor();
+   //hideCursor();
    enableVSync();
 
    testVertexShader.loadSource("shaders/default.vertex.glsl");

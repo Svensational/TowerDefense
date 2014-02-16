@@ -55,7 +55,9 @@ public:
    };
 
    BufferObject();
+   BufferObject(BufferObject && other);
    virtual ~BufferObject();
+   BufferObject & operator =(BufferObject && other);
    void bind(Target target);
    void unbind() const;
    void createStorage(Usage usage, int size, void const * data = nullptr);
@@ -67,6 +69,8 @@ protected:
    unsigned int name;
    Target target;
    int size;
+
+   BufferObject(unsigned int name, Target target, int size);
 };
 
 #endif // BUFFEROBJECT_H

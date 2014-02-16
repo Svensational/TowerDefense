@@ -20,8 +20,10 @@ public:
       COMPUTE_SHADER         = 0x91B9
    };
 
-   ShaderObject(Type type);
+   explicit ShaderObject(Type type);
+   ShaderObject(ShaderObject && other);
    virtual ~ShaderObject();
+   ShaderObject & operator =(ShaderObject && other);
    void setSource(std::string const & source) const;
    bool loadSource(std::string const & filename) const;
    bool compile() const;

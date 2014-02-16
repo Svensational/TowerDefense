@@ -1,9 +1,16 @@
 #include "indexbufferobject.h"
+#include <utility>
 #include "gl_core_4_4.h"
 
 IndexBufferObject::IndexBufferObject() :
    BufferObject()
 {
+}
+
+IndexBufferObject::IndexBufferObject(IndexBufferObject && other) :
+   BufferObject(other.name, other.target, other.size)
+{
+   other.name = 0;
 }
 
 void IndexBufferObject::bind() {
@@ -24,4 +31,11 @@ void IndexBufferObject::draw(Mode mode, Type type) const {
          break;
    }
    glDrawElements(mode, count, type, 0);
+}
+
+IndexBufferObject & IndexBufferObject::operator =(IndexBufferObject && other) {
+   std::swap(name, other.name);
+   target = other.target;
+   size = other.size;
+   return *this;
 }

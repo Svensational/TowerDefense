@@ -7,6 +7,12 @@ ShaderObject::ShaderObject(Type type) :
 {
 }
 
+ShaderObject::ShaderObject(ShaderObject && other) :
+   name(other.name)
+{
+   other.name = 0;
+}
+
 ShaderObject::~ShaderObject() {
    glDeleteShader(name);
 }
@@ -37,6 +43,11 @@ bool ShaderObject::loadSource(std::string const & filename) const {
    else {
       return false;
    }
+}
+
+ShaderObject & ShaderObject::operator =(ShaderObject && other) {
+   std::swap(name, other.name);
+   return *this;
 }
 
 void ShaderObject::setSource(std::string const & source) const {

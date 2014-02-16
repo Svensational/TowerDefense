@@ -1,11 +1,16 @@
 #include "programobject.h"
 #include "gl_core_4_4.h"
 #include "shaderobject.h"
-#include <iostream>
 
 ProgramObject::ProgramObject() :
    name(glCreateProgram())
 {
+}
+
+ProgramObject::ProgramObject(ProgramObject && other) :
+   name(other.name)
+{
+   other.name = 0;
 }
 
 ProgramObject::~ProgramObject() {
@@ -41,6 +46,11 @@ bool ProgramObject::link() const {
    int didLink;
    glGetProgramiv(name, GL_LINK_STATUS, &didLink);
    return didLink;
+}
+
+ProgramObject & ProgramObject::operator =(ProgramObject && other) {
+   std::swap(name, other.name);
+   return *this;
 }
 
 void ProgramObject::use() const {

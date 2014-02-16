@@ -13,6 +13,8 @@ public:
    };
 
    IndexBufferObject();
+   IndexBufferObject(IndexBufferObject && other);
+   IndexBufferObject & operator =(IndexBufferObject && other);
    void bind();
    void draw(Mode mode, Type type) const;
 

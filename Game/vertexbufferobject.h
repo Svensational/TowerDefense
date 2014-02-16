@@ -7,6 +7,8 @@ class VertexBufferObject : public BufferObject {
 
 public:
    VertexBufferObject();
+   VertexBufferObject(VertexBufferObject && other);
+   VertexBufferObject & operator =(VertexBufferObject && other);
    void bind();
    void draw(Mode mode, unsigned int vertexsize) const;
 };

@@ -8,7 +8,9 @@ class ProgramObject {
 
 public:
    ProgramObject();
+   ProgramObject(ProgramObject && other);
    virtual ~ProgramObject();
+   ProgramObject & operator =(ProgramObject && other);
    void attachShader(ShaderObject const & shader) const;
    void detachShader(ShaderObject const & shader) const;
    void bindAttributeLocation(int index, std::string attribName) const;
