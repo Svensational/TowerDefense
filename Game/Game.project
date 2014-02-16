@@ -158,4 +158,8 @@
       </Completion>
     </Configuration>
   </Settings>
+  <VirtualDirectory Name="Shader">
+    <File Name="../bin/shaders/default.fragment.glsl"/>
+    <File Name="../bin/shaders/default.vertex.glsl"/>
+  </VirtualDirectory>
 </CodeLite_Project>
