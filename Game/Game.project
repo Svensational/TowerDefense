@@ -36,8 +36,8 @@
       <File Name="glfwapplication.cpp"/>
       <File Name="glfwwindow.h"/>
       <File Name="glfwwindow.cpp"/>
-      <File Name="image.h"/>
       <File Name="image.cpp"/>
+      <File Name="image.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Math">
       <File Name="vec3f.h"/>
@@ -63,6 +63,8 @@
       <File Name="programobject.h"/>
       <File Name="programobject.cpp"/>
       <File Name="vertex.h"/>
+      <File Name="texture.h"/>
+      <File Name="texture.cpp"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
