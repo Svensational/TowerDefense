@@ -12,6 +12,8 @@ public:
    int & height();
    float aspectRatio() const;
    int area() const;
+   int min() const;
+   int max() const;
 
 private:
    std::array<int, 2> size;

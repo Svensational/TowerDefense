@@ -5,12 +5,12 @@ Size2i::Size2i(int width, int height) :
 {
 }
 
-int Size2i::width() const {
-   return size[0];
+int Size2i::area() const {
+   return size[0]*size[1];
 }
 
-int & Size2i::width() {
-   return size[0];
+float Size2i::aspectRatio() const {
+   return size[0]/float(size[1]);
 }
 
 int Size2i::height() const {
@@ -21,10 +21,18 @@ int & Size2i::height() {
    return size[1];
 }
 
-float Size2i::aspectRatio() const {
-   return size[0]/float(size[1]);
+int Size2i::max() const {
+   return std::max(size[0], size[1]);
 }
 
-int Size2i::area() const {
-   return size[0]*size[1];
+int Size2i::min() const {
+   return std::min(size[0], size[1]);
+}
+
+int Size2i::width() const {
+   return size[0];
+}
+
+int & Size2i::width() {
+   return size[0];
 }

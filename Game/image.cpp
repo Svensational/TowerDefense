@@ -7,6 +7,18 @@ Image::Image() :
 {
 }
 
+Image::Image(Size2i size, unsigned char * data) :
+   size(size), data(nullptr)
+{
+   this->data = new unsigned char[size.area()*4];
+   if (data) {
+      memcpy(this->data, data, size.area()*4);
+   }
+   /*else {
+      memset(this->data, 0, size.area()*4);
+   }*/
+}
+
 Image::Image(Image && other) :
    size(other.size), data(other.data)
 {
@@ -15,10 +27,6 @@ Image::Image(Image && other) :
 
 Image::~Image() {
    delete[] data;
-}
-
-unsigned char const * const Image::getData() const {
-   return data;
 }
 
 int Image::getHeight() const {
@@ -59,6 +67,7 @@ bool Image::loadPNG(std::string const & filename) {
    }
 
    size = Size2i(image.width, image.height);
+   delete[] data;
    data = buffer;
    return true;
 }
@@ -67,6 +76,14 @@ Image & Image::operator =(Image && other) {
    size = other.size;
    std::swap(data, other.data);
    return *this;
+}
+
+unsigned char * Image::rawData() {
+   return data;
+}
+
+unsigned char const * const Image::rawData() const {
+   return data;
 }
 
 bool Image::savePNG(std::string const & filename) const {

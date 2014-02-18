@@ -49,6 +49,7 @@ protected:
    Target target;
 
    explicit Texture(Target target);
+   Texture(unsigned int name, Target target);
 
 private:
    static int getMaxTextureImageUnitsPriv();

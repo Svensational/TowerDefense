@@ -1,6 +1,7 @@
 #include "window.h"
 #include "gl_core_4_4.h"
 #include "vertex.h"
+#include "texture2d.h"
 #include <iostream>
 
 Window::Window() :
@@ -18,6 +19,15 @@ Window::~Window() {
 void Window::initGL() {
    //hideCursor();
    enableVSync();
+
+   Image testImage;
+   testImage.loadPNG("images/test.png");
+   Texture2D testTexture;
+   testTexture.bind();
+   testTexture.createStorage(testImage.getSize());
+   testTexture.setImage(testImage);
+   testTexture.generateMipmaps();
+
 
    testVertexShader.loadSource("shaders/default.vertex.glsl");
    testVertexShader.compile();

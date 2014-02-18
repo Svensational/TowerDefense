@@ -65,6 +65,8 @@
       <File Name="vertex.h"/>
       <File Name="texture.h"/>
       <File Name="texture.cpp"/>
+      <File Name="texture2d.h"/>
+      <File Name="texture2d.cpp"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">

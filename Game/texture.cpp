@@ -7,6 +7,11 @@ Texture::Texture(Target target) :
    glGenTextures(1, &name);
 }
 
+Texture::Texture(unsigned int name, Target target) :
+   name(name), target(target)
+{
+}
+
 Texture::~Texture() {
    glDeleteTextures(1, &name);
 }
