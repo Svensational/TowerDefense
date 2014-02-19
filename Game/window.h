@@ -6,6 +6,7 @@
 #include "vertexbufferobject.h"
 #include "shaderobject.h"
 #include "programobject.h"
+#include "texture2d.h"
 
 class Window : public GLFWWindow {
 
@@ -21,7 +22,7 @@ private:
    ShaderObject testVertexShader;
    ShaderObject testFragmentShader;
    ProgramObject testProgram;
-
+   Texture2D testTexture;
 
    void initGL();
 };

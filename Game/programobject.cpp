@@ -33,6 +33,10 @@ int ProgramObject::getAttributeLocation(std::string attribName) const {
    return glGetAttribLocation(name, attribName.c_str());
 }
 
+int ProgramObject::getUniformLocation(std::string uniformName) const {
+   return glGetUniformLocation(name, uniformName.c_str());
+}
+
 std::string ProgramObject::getLog() const {
    int infoLogLength;
    glGetProgramiv(name, GL_INFO_LOG_LENGTH, &infoLogLength);

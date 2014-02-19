@@ -15,6 +15,7 @@ public:
    void detachShader(ShaderObject const & shader) const;
    void bindAttributeLocation(int index, std::string attribName) const;
    int getAttributeLocation(std::string attribName) const;
+   int getUniformLocation(std::string uniformName) const;
    bool link() const;
    void use() const;
    std::string getLog() const;
