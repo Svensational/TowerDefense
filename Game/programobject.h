@@ -13,12 +13,16 @@ public:
    ProgramObject & operator =(ProgramObject && other);
    void attachShader(ShaderObject const & shader) const;
    void detachShader(ShaderObject const & shader) const;
+   bool link() const;
+   void use() const;
+
    void bindAttributeLocation(int index, std::string attribName) const;
    int getAttributeLocation(std::string attribName) const;
    int getUniformLocation(std::string uniformName) const;
-   bool link() const;
-   void use() const;
    std::string getLog() const;
+
+   void setUniform(std::string uniformName, float v0) const;
+   static void setUniform(int location, float v0);
 
 private:
    unsigned int name;

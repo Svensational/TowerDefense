@@ -14,4 +14,10 @@ struct Vertex_T2F_V3F {
    float x, y, z;
 };
 
+struct Vertex_V3F_N3F_T2F {
+   float v[3];
+   float n[3];
+   float t[2];
+};
+
 #endif // VERTEX_H

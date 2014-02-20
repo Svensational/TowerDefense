@@ -73,15 +73,13 @@ void Window::initGL() {
    it->z = -0.5f;
    testVBO.unmap();
 
-   int index = testProgram.getAttributeLocation("vertexTexCoords");
-   testVAO.enableVertexAttributeArray(index);
-   testVAO.vertexAttributePointer(index, 2, GL_FLOAT, false, sizeof(Vertex_T2F_V3F), 0);
+   testVAO.enableVertexAttributeArray(3);
+   testVAO.vertexAttributePointer(3, 2, GL_FLOAT, false, sizeof(Vertex_T2F_V3F), 0);
 
-   index = testProgram.getAttributeLocation("position");
-   testVAO.enableVertexAttributeArray(index);
-   testVAO.vertexAttributePointer(index, 3, GL_FLOAT, false, sizeof(Vertex_T2F_V3F), 2*sizeof(float));
+   testVAO.enableVertexAttributeArray(0);
+   testVAO.vertexAttributePointer(0, 3, GL_FLOAT, false, sizeof(Vertex_T2F_V3F), 2*sizeof(float));
 
-   glUniform1i(testProgram.getUniformLocation("textureSampler"), 0/*texture image unit*/);
+   testProgram.setUniform("textureSampler", 0/*texture image unit*/);
 }
 
 void Window::onResized(Size2i newSize) {
