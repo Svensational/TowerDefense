@@ -7,6 +7,7 @@
 #include "shaderobject.h"
 #include "programobject.h"
 #include "texture2d.h"
+#include "vertex.h"
 
 class Window : public GLFWWindow {
 
@@ -18,7 +19,7 @@ public:
 
 private:
    VAO testVAO;
-   VBO testVBO;
+   VBO<Vertex_T2F_V3F> testVBO;
    ShaderObject testVertexShader;
    ShaderObject testFragmentShader;
    ProgramObject testProgram;

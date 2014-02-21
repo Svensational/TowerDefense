@@ -3,19 +3,19 @@
 #include "gl_core_4_4.h"
 
 BufferObject::BufferObject() :
-   name(0), target(ARRAY_BUFFER), size(0)
+   name(0), target(ARRAY_BUFFER), count(0)
 {
    glGenBuffers(1, &name);
 }
 
-BufferObject::BufferObject(unsigned int name, Target target, int size) :
-   name(name), target(target), size(size)
+BufferObject::BufferObject(unsigned int name, Target target, int count) :
+   name(name), target(target), count(count)
 {
    // don't create buffer since this is only for the initialization of subclasses
 }
 
 BufferObject::BufferObject(BufferObject && other) :
-   name(other.name), target(other.target), size(other.size)
+   name(other.name), target(other.target), count(other.count)
 {
    other.name = 0;
 }
@@ -29,10 +29,10 @@ void BufferObject::bind(Target target) {
    glBindBuffer(target, name);
 }
 
-void BufferObject::createStorage(Usage usage, int size, void const * data) {
-   this->size = size;
+void BufferObject::createStorage(Usage usage, int count, int entrySize, void const * data) {
+   this->count = count;
 
-   glBufferData(target, size, data, usage);
+   glBufferData(target, count*entrySize, data, usage);
 }
 
 void * BufferObject::map(Access access) const {
@@ -57,12 +57,8 @@ void * BufferObject::mapRange(int offset, int length, Access access) const {
 BufferObject & BufferObject::operator=(BufferObject && other) {
    std::swap(name, other.name);
    target = other.target;
-   size = other.size;
+   count = other.count;
    return *this;
-}
-
-void BufferObject::unbind() const {
-   glBindBuffer(target, 0);
 }
 
 void BufferObject::unmap() const {

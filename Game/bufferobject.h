@@ -59,8 +59,7 @@ public:
    virtual ~BufferObject();
    BufferObject & operator =(BufferObject && other);
    void bind(Target target);
-   void unbind() const;
-   void createStorage(Usage usage, int size, void const * data = nullptr);
+   void createStorage(Usage usage, int count, int entrySize, void const * data = nullptr);
    void * map(Access access) const;
    void * mapRange(int offset, int length, Access access) const;
    void unmap() const;
@@ -68,9 +67,9 @@ public:
 protected:
    unsigned int name;
    Target target;
-   int size;
+   int count;
 
-   BufferObject(unsigned int name, Target target, int size);
+   BufferObject(unsigned int name, Target target, int count);
 };
 
 #endif // BUFFEROBJECT_H

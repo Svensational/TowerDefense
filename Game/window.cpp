@@ -48,8 +48,8 @@ void Window::initGL() {
    testVBO.bind();
    testProgram.use();
 
-   testVBO.createStorage(BufferObject::STATIC_DRAW, 3*sizeof(Vertex_T2F_V3F));
-   Vertex_T2F_V3F * it = (Vertex_T2F_V3F *)testVBO.map(BufferObject::WRITE_ONLY);
+   testVBO.createStorage(BufferObject::STATIC_DRAW, 3);
+   Vertex_T2F_V3F * it = testVBO.map(BufferObject::WRITE_ONLY);
 
    // simple triangle
    it->s = 0.0f;
@@ -88,6 +88,6 @@ void Window::onResized(Size2i newSize) {
 
 void Window::update(double deltaTime) {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   testVBO.draw(VBO::TRIANGLES, sizeof(Vertex_T2F_V3F));
+   testVBO.draw(BufferObject::TRIANGLES);
    swapBuffers();
 }
