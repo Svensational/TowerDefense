@@ -2,7 +2,6 @@
 #define VERTEXBUFFEROBJECT_H
 
 #include "bufferobject.h"
-#include "gl_core_4_4.h"
 
 template <typename T>
 class VertexBufferObject : public BufferObject {
@@ -31,8 +30,7 @@ public:
    }
 
    void createStorage(Usage usage, int count, T const * data = nullptr) {
-      this->count = count;
-      glBufferData(target, count*sizeof(T), data, usage);
+      BufferObject::createStorage(usage, count, sizeof(T), data);
    }
 
    T * map(Access access) const {
@@ -44,7 +42,7 @@ public:
    }
 
    void draw(Mode mode) const {
-      glDrawArrays(mode, 0, count);
+      BufferObject::drawArrays(mode);
    }
 };
 

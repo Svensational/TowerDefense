@@ -25,14 +25,33 @@ BufferObject::~BufferObject() {
 }
 
 void BufferObject::bind(Target target) {
-   this->target = target;
+   BufferObject::target = target;
    glBindBuffer(target, name);
 }
 
 void BufferObject::createStorage(Usage usage, int count, int entrySize, void const * data) {
-   this->count = count;
-
+   BufferObject::count = count;
    glBufferData(target, count*entrySize, data, usage);
+}
+
+void BufferObject::drawArrays(Mode mode) const {
+   glDrawArrays(mode, 0, count);
+}
+
+void BufferObject::drawElements(Mode mode, unsigned int entrySize) const {
+   unsigned int type;
+   switch (entrySize) {
+   case 1:
+      type = GL_UNSIGNED_BYTE;
+      break;
+   case 2:
+      type = GL_UNSIGNED_SHORT;
+      break;
+   default:
+      type = GL_UNSIGNED_INT;
+      break;
+   }
+   glDrawElements(mode, count, type, 0);
 }
 
 void * BufferObject::map(Access access) const {

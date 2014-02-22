@@ -70,6 +70,8 @@ protected:
    int count;
 
    BufferObject(unsigned int name, Target target, int count);
+   void drawArrays(Mode mode) const;
+   void drawElements(Mode mode, unsigned int entrySize) const;
 };
 
 #endif // BUFFEROBJECT_H

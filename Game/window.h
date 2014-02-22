@@ -4,6 +4,7 @@
 #include "glfwwindow.h"
 #include "vertexarrayobject.h"
 #include "vertexbufferobject.h"
+#include "indexbufferobject.h"
 #include "shaderobject.h"
 #include "programobject.h"
 #include "texture2d.h"
@@ -20,6 +21,7 @@ public:
 private:
    VAO testVAO;
    VBO<Vertex_T2F_V3F> testVBO;
+   IBOub testIBO;
    ShaderObject testVertexShader;
    ShaderObject testFragmentShader;
    ProgramObject testProgram;

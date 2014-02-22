@@ -46,12 +46,11 @@ void Window::initGL() {
 
    testVAO.bind();
    testVBO.bind();
+   testIBO.bind();
    testProgram.use();
 
-   testVBO.createStorage(BufferObject::STATIC_DRAW, 3);
+   testVBO.createStorage(BufferObject::STATIC_DRAW, 4);
    Vertex_T2F_V3F * it = testVBO.map(BufferObject::WRITE_ONLY);
-
-   // simple triangle
    it->s = 0.0f;
    it->t = 0.0f;
    it->x = -0.5f;
@@ -66,12 +65,29 @@ void Window::initGL() {
    it->z = -0.5f;
    ++it;
 
-   it->s = 0.5f;
+   it->s = 1.0f;
    it->t = 1.0f;
-   it->x = 0.0f;
+   it->x = 0.5f;
+   it->y = 0.5f;
+   it->z = -0.5f;
+   ++it;
+
+   it->s = 0.0f;
+   it->t = 1.0f;
+   it->x = -0.5f;
    it->y = 0.5f;
    it->z = -0.5f;
    testVBO.unmap();
+
+   testIBO.createStorage(BufferObject::STATIC_DRAW, 6);
+   unsigned char * it2 = testIBO.map(BufferObject::WRITE_ONLY);
+   *it2++ = 0;
+   *it2++ = 1;
+   *it2++ = 2;
+   *it2++ = 0;
+   *it2++ = 2;
+   *it2++ = 3;
+   testIBO.unmap();
 
    testVAO.enableVertexAttributeArray(3);
    testVAO.vertexAttributePointer(3, 2, GL_FLOAT, false, sizeof(Vertex_T2F_V3F), 0);
@@ -88,6 +104,6 @@ void Window::onResized(Size2i newSize) {
 
 void Window::update(double deltaTime) {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   testVBO.draw(BufferObject::TRIANGLES);
+   testIBO.draw(BufferObject::TRIANGLES);
    swapBuffers();
 }
