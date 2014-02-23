@@ -1,23 +1,20 @@
 #ifndef VERTEX_H
 #define VERTEX_H
-
-// v: x, y, z, w
-// c: r, g, b, a
-// t: s, t, p, q
+#include <array>
 
 struct Vertex_V3F {
-   float x, y, z;
+   std::array<float, 3> v;
 };
 
-struct Vertex_T2F_V3F {
-   float s, t;
-   float x, y, z;
+struct Vertex_V3F_T2F {
+   std::array<float, 3> v;
+   std::array<float, 2> t;
 };
 
 struct Vertex_V3F_N3F_T2F {
-   float v[3];
-   float n[3];
-   float t[2];
+   std::array<float, 3> v;
+   std::array<float, 3> n;
+   std::array<float, 2> t;
 };
 
 #endif // VERTEX_H

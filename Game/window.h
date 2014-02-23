@@ -20,7 +20,7 @@ public:
 
 private:
    VAO testVAO;
-   VBO<Vertex_T2F_V3F> testVBO;
+   VBO<Vertex_V3F_T2F> testVBO;
    IBOub testIBO;
    ShaderObject testVertexShader;
    ShaderObject testFragmentShader;
