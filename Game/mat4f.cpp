@@ -1,11 +1,11 @@
-#include "mat4x4f.h"
+#include "mat4f.h"
 #include <cmath>
 #include <utility>
 #include "vec3f.h"
 
 const float pi = 3.141592654f;
 
-Mat4x4f::Mat4x4f() :
+Mat4f::Mat4f() :
    elements{1.0f, 0.0f, 0.0f, 0.0f,
             0.0f, 1.0f, 0.0f, 0.0f,
             0.0f, 0.0f, 1.0f, 0.0f,
@@ -13,8 +13,8 @@ Mat4x4f::Mat4x4f() :
 {
 }
 
-Mat4x4f Mat4x4f::frustum(float left, float right, float bottom, float top, float near, float far) {
-   Mat4x4f transform;
+Mat4f Mat4f::frustum(float left, float right, float bottom, float top, float near, float far) {
+   Mat4f transform;
    transform.elements[ 0] = 2.0f*near/(right-left);
    transform.elements[ 5] = 2.0f*near/(top-bottom);
    transform.elements[ 8] = (right+left)/(right-left);
@@ -26,19 +26,19 @@ Mat4x4f Mat4x4f::frustum(float left, float right, float bottom, float top, float
    return transform;
 }
 
-void Mat4x4f::gaussJordanLine(float * source, float * target, float factor) const {
+void Mat4f::gaussJordanLine(float * source, float * target, float factor) const {
    for (int i=0; i<16; i+=4) {
       target[i] += source[i]*factor;
    }
 }
 
-Mat4x4f & Mat4x4f::invert() {
+Mat4f & Mat4f::invert() {
    return *this = inverted();
 }
 
-Mat4x4f Mat4x4f::inverted() const {
-   Mat4x4f ori(*this);
-   Mat4x4f inv;
+Mat4f Mat4f::inverted() const {
+   Mat4f ori(*this);
+   Mat4f inv;
    float factor;
    // 'ori' to upper triangular matrix
    for (int i=0; i<3; ++i) {
@@ -67,8 +67,8 @@ Mat4x4f Mat4x4f::inverted() const {
    return inv;
 }
 
-Mat4x4f Mat4x4f::lookAt(Point3f const & eye, Point3f const & center, Vec3f const & up) {
-   Mat4x4f transform;
+Mat4f Mat4f::lookAt(Point3f const & eye, Point3f const & center, Vec3f const & up) {
+   Mat4f transform;
    Vec3f f = (center-eye).normalized();
    Vec3f s = (f.crossProd(up)).normalized();
    Vec3f u = s.crossProd(f);
@@ -81,13 +81,11 @@ Mat4x4f Mat4x4f::lookAt(Point3f const & eye, Point3f const & center, Vec3f const
    transform.elements[ 8] =  s[2];
    transform.elements[ 9] =  u[2];
    transform.elements[10] = -f[2];
-   //translate afterwards
-   transform *= Mat4x4f::translation(-Vec3f(eye));
-   return transform;
+   return Mat4f::translation(-Vec3f(eye))*transform;
 }
 
-Mat4x4f Mat4x4f::operator*(Mat4x4f const & other) const {
-   Mat4x4f prod;
+Mat4f Mat4f::operator*(Mat4f const & other) const {
+   Mat4f prod;
    int i1, i2;
    for (int i=0; i<16; ++i) {
       i1 = i%4;
@@ -102,12 +100,16 @@ Mat4x4f Mat4x4f::operator*(Mat4x4f const & other) const {
    return prod;
 }
 
-Mat4x4f & Mat4x4f::operator*=(Mat4x4f const & other) {
+Mat4f & Mat4f::operator*=(Mat4f const & other) {
    return *this = *this * other;
 }
 
-Mat4x4f Mat4x4f::ortho(float left, float right, float bottom, float top, float near, float far) {
-   Mat4x4f transform;
+Mat4f::operator float const * () const {
+   return elements.data();
+}
+
+Mat4f Mat4f::ortho(float left, float right, float bottom, float top, float near, float far) {
+   Mat4f transform;
    transform.elements[ 0] = 2.0f/(right-left);
    transform.elements[ 5] = 2.0f/(top-bottom);
    transform.elements[10] = -2.0f/(far-near);
@@ -117,8 +119,8 @@ Mat4x4f Mat4x4f::ortho(float left, float right, float bottom, float top, float n
    return transform;
 }
 
-Mat4x4f Mat4x4f::perspective(float fovy, float aspect, float near, float far) {
-   Mat4x4f transform;
+Mat4f Mat4f::perspective(float fovy, float aspect, float near, float far) {
+   Mat4f transform;
    const float f = 1.0f/tan(fovy*pi/360.0f);
    transform.elements[ 0] = f/aspect;
    transform.elements[ 5] = f;
@@ -129,8 +131,8 @@ Mat4x4f Mat4x4f::perspective(float fovy, float aspect, float near, float far) {
    return transform;
 }
 
-Mat4x4f Mat4x4f::rotation(float angle, Vec3f axis) {
-   Mat4x4f transform;
+Mat4f Mat4f::rotation(float angle, Vec3f axis) {
+   Mat4f transform;
    axis.normalize();
    const float s = sin(angle*pi/180.0);
    const float c = cos(angle*pi/180.0);
@@ -146,23 +148,23 @@ Mat4x4f Mat4x4f::rotation(float angle, Vec3f axis) {
    return transform;
 }
 
-Mat4x4f Mat4x4f::scaling(float x, float y, float z) {
-   Mat4x4f transform;
+Mat4f Mat4f::scaling(float x, float y, float z) {
+   Mat4f transform;
    transform.elements[ 0] = x;
    transform.elements[ 5] = y;
    transform.elements[10] = z;
    return transform;
 }
 
-Mat4x4f Mat4x4f::translation(Vec3f const & trans) {
-   Mat4x4f transform;
+Mat4f Mat4f::translation(Vec3f const & trans) {
+   Mat4f transform;
    transform.elements[12] = trans[0];
    transform.elements[13] = trans[1];
    transform.elements[14] = trans[2];
    return transform;
 }
 
-Mat4x4f & Mat4x4f::transpose() {
+Mat4f & Mat4f::transpose() {
    std::swap(elements[ 1], elements[ 4]);
    std::swap(elements[ 2], elements[ 8]);
    std::swap(elements[ 3], elements[12]);
@@ -172,6 +174,6 @@ Mat4x4f & Mat4x4f::transpose() {
    return *this;
 }
 
-Mat4x4f Mat4x4f::transposed() const {
-   return Mat4x4f(*this).transpose();
+Mat4f Mat4f::transposed() const {
+   return Mat4f(*this).transpose();
 }

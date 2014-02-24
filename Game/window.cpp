@@ -1,6 +1,7 @@
 #include "window.h"
 #include "gl_core_4_4.h"
 #include "vertex.h"
+#include "vec3f.h"
 #include <iostream>
 
 Window::Window() :
@@ -10,6 +11,7 @@ Window::Window() :
 {
    // needs to be done because it can't be called from the baseclass c'tor
    initGL();
+   onResized(size);
 }
 
 Window::~Window() {
@@ -51,19 +53,19 @@ void Window::initGL() {
 
    testVBO.createStorage(BufferObject::STATIC_DRAW, 4);
    Vertex_V3F_T2F * it = testVBO.map(BufferObject::WRITE_ONLY);
-   it->v = {-0.5f, -0.5f, -0.5f};
+   it->v = {-0.5f, -0.5f, 0.0f};
    it->t = {0.0f, 0.0f};
    ++it;
 
-   it->v = {0.5f, -0.5f, -0.5f};
+   it->v = {0.5f, -0.5f, 0.0f};
    it->t = {1.0f, 0.0f};
    ++it;
 
-   it->v = {0.5f, 0.5f, -0.5f};
+   it->v = {0.5f, 0.5f, 0.0f};
    it->t = {1.0f, 1.0f};
    ++it;
 
-   it->v = {-0.5f, 0.5f, -0.5f};
+   it->v = {-0.5f, 0.5f, 0.0f};
    it->t = {0.0f, 1.0f};
    testVBO.unmap();
 
@@ -84,14 +86,17 @@ void Window::initGL() {
    testVAO.vertexAttributePointer(3, 2, GL_FLOAT, false, sizeof(Vertex_V3F_T2F), 3*sizeof(float));
 
    testProgram.setUniform("textureSampler", 0/*texture image unit*/);
+   viewMat = Mat4f::lookAt(Point3f(0.0f, 0.0f, 2.0f), Point3f(), Vec3f(0.0f, 1.0f, 0.0f));
 }
 
 void Window::onResized(Size2i newSize) {
    glViewport(0, 0, newSize.width(), newSize.height());
+   projectionMat = Mat4f::perspective(45.0, newSize.aspectRatio(), 0.1f, 10.0f);
 }
 
 void Window::update(double deltaTime) {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   testProgram.setUniform("mvp", projectionMat*viewMat*modelMat);
    testIBO.draw(BufferObject::TRIANGLES);
    swapBuffers();
 }

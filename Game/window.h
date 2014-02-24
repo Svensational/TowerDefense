@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include "glfwwindow.h"
+#include "mat4f.h"
 #include "vertexarrayobject.h"
 #include "vertexbufferobject.h"
 #include "indexbufferobject.h"
@@ -19,6 +20,9 @@ public:
    void onResized(Size2i newSize);
 
 private:
+   Mat4f modelMat;
+   Mat4f viewMat;
+   Mat4f projectionMat;
    VAO testVAO;
    VBO<Vertex_V3F_T2F> testVBO;
    IBOub testIBO;

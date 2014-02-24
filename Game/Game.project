@@ -46,8 +46,8 @@
       <File Name="vec2f.cpp"/>
       <File Name="size2i.h"/>
       <File Name="size2i.cpp"/>
-      <File Name="mat4x4f.h"/>
-      <File Name="mat4x4f.cpp"/>
+      <File Name="mat4f.h"/>
+      <File Name="mat4f.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="OpenGL">
       <File Name="bufferobject.cpp"/>
