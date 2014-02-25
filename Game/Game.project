@@ -66,6 +66,8 @@
       <File Name="texture2d.h"/>
       <File Name="texture2d.cpp"/>
     </VirtualDirectory>
+    <File Name="sphere.h"/>
+    <File Name="sphere.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
     <File Name="../.gitignore"/>

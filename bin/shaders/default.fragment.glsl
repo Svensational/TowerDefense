@@ -1,4 +1,5 @@
 #version 330
+
 in vec2 texCoords;
 out vec3 color;
 uniform sampler2D textureSampler;
