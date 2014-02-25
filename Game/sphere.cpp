@@ -1,6 +1,7 @@
 #include "sphere.h"
 #include "shaderobject.h"
 #include "gl_core_4_4.h"
+#include <iostream>
 
 Sphere::Sphere(Point3f const & pos, float size) :
    modelMat(Mat4f::translation(Vec3f(pos)) * Mat4f::scaling(size, size, size))
@@ -88,14 +89,17 @@ void Sphere::loadProgram() {
    ShaderObject vertexShader(ShaderObject::VERTEX_SHADER);
    vertexShader.loadSource("shaders/default.vertex.glsl");
    vertexShader.compile();
+   std::cout << vertexShader.getLog() << std::endl;
 
    ShaderObject fragmentShader(ShaderObject::FRAGMENT_SHADER);
    fragmentShader.loadSource("shaders/default.fragment.glsl");
    fragmentShader.compile();
+   std::cout << fragmentShader.getLog() << std::endl;
 
    program.attachShader(vertexShader);
    program.attachShader(fragmentShader);
    program.link();
+   std::cout << program.getLog() << std::endl;
    program.detachShader(vertexShader);
    program.detachShader(fragmentShader);
 
@@ -115,11 +119,13 @@ void Sphere::loadTexture() {
    texture.setMaxAnisotropy();
 }
 
-void Sphere::render(Mat4f const & vpMat) {
+void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
    vao.bind();
    vbo.bind();
    ibo.bind();
    program.use();
+   program.setUniform("m", modelMat);
+   program.setUniform("v", vMat);
    program.setUniform("mvp", vpMat*modelMat);
    ibo.draw(BufferObject::TRIANGLES);
 }

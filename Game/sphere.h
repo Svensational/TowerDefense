@@ -15,7 +15,7 @@ class Sphere {
 public:
    Sphere(Point3f const & pos, float size);
    virtual ~Sphere();
-   void render(Mat4f const & vpMat);
+   void render(Mat4f const & vpMat, Mat4f const & vMat);
 
 private:
    Mat4f modelMat;
