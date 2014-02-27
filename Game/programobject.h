@@ -4,6 +4,7 @@
 
 class ShaderObject;
 class Mat4f;
+class Vec3f;
 
 class ProgramObject {
 
@@ -22,9 +23,11 @@ public:
    int getUniformLocation(std::string uniformName) const;
    std::string getLog() const;
 
-   void setUniform(std::string uniformName, float v0) const;
+   void setUniform(std::string uniformName, float val) const;
+   void setUniform(std::string uniformName, Vec3f const & vec) const;
    void setUniform(std::string uniformName, Mat4f const & mat) const;
-   static void setUniform(int location, float v0);
+   static void setUniform(int location, float val);
+   static void setUniform(int location, Vec3f const & vec);
    static void setUniform(int location, Mat4f const & mat);
 
 private:

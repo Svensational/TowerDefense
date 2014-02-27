@@ -4,8 +4,11 @@ in vec3 lightDir_camera;
 in vec3 normal_camera;
 in vec3 eyeDir_camera;
 in vec2 texCoords;
-out vec3 color;
+
 uniform sampler2D textureSampler;
+uniform vec3 lightColor;
+
+out vec3 color;
 
 void main() {
    vec3 l = normalize(lightDir_camera);
@@ -15,5 +18,5 @@ void main() {
    float cosTheta = clamp(dot(n, l), 0, 1);
    float cosAlpha = clamp(dot(e, r), 0, 1);
 
-   color = texture(textureSampler, texCoords).rgb * (cosTheta + 0.1 + pow(cosAlpha, 5));
+   color = texture(textureSampler, texCoords).rgb * lightColor * (0.1 + cosTheta + pow(cosAlpha, 5));
 }

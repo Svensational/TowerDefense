@@ -104,7 +104,9 @@ void Sphere::loadProgram() {
    program.detachShader(fragmentShader);
 
    program.use();
-   program.setUniform("textureSampler", 0/*texture image unit*/);
+   program.setUniform("lightDir", Vec3f(-1.0f, 1.0f, -1.0f));
+   program.setUniform("lightColor", Vec3f(1.0f, 1.0f, 1.0f));
+   program.setUniform("textureSampler", 0);
 }
 
 void Sphere::loadTexture() {
@@ -124,7 +126,7 @@ void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
    vbo.bind();
    ibo.bind();
    program.use();
-   program.setUniform("m", modelMat);
+   program.setUniform("mv", vMat*modelMat);
    program.setUniform("v", vMat);
    program.setUniform("mvp", vpMat*modelMat);
    ibo.draw(BufferObject::TRIANGLES);

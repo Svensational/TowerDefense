@@ -1,6 +1,7 @@
 #include "programobject.h"
 #include "gl_core_4_4.h"
 #include "mat4f.h"
+#include "vec3f.h"
 #include "shaderobject.h"
 
 ProgramObject::ProgramObject() :
@@ -58,12 +59,20 @@ ProgramObject & ProgramObject::operator =(ProgramObject && other) {
    return *this;
 }
 
-void ProgramObject::setUniform(int location, float v0) {
-   glUniform1f(location, v0);
+void ProgramObject::setUniform(int location, float val) {
+   glUniform1f(location, val);
 }
 
-void ProgramObject::setUniform(std::string uniformName, float v0) const {
-   glUniform1f(getUniformLocation(uniformName), v0);
+void ProgramObject::setUniform(std::string uniformName, float val) const {
+   glUniform1f(getUniformLocation(uniformName), val);
+}
+
+void ProgramObject::setUniform(int location, Vec3f const & vec) {
+   glUniform3fv(location, 1, vec);
+}
+
+void ProgramObject::setUniform(std::string uniformName, Vec3f const & vec) const {
+   glUniform3fv(getUniformLocation(uniformName), 1, vec);
 }
 
 void ProgramObject::setUniform(int location, Mat4f const & mat) {
