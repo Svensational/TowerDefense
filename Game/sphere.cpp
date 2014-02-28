@@ -1,6 +1,7 @@
 #include "sphere.h"
-#include "shaderobject.h"
+#include <cmath>
 #include "gl_core_4_4.h"
+#include "shaderobject.h"
 #include <iostream>
 
 Sphere::Sphere(Point3f const & pos, float size) :
@@ -16,63 +17,38 @@ Sphere::~Sphere()
 }
 
 void Sphere::createBuffers() {
+   const int n = 8;
+   const double pi = 3.141592654;
+   double theta;
+   double phi;
+
    vao.bind();
    vbo.bind();
 
-   vbo.createStorage(BufferObject::STATIC_DRAW, 6);
+   vbo.createStorage(BufferObject::STATIC_DRAW, (n+1)*2*n);
    Vertex_V3F_N3F_T2F * iv = vbo.map(BufferObject::WRITE_ONLY);
-   iv->v = {1.0f, 0.0f, 0.0f};
-   iv->n = {1.0f, 0.0f, 0.0f};
-   iv->t = {1.0f, 0.5f};
-   ++iv;
-   iv->v = {-1.0f, 0.0f, 0.0f};
-   iv->n = {-1.0f, 0.0f, 0.0f};
-   iv->t = {0.0f, 0.5f};
-   ++iv;
-   iv->v = {0.0f, 1.0f, 0.0f};
-   iv->n = {0.0f, 1.0f, 0.0f};
-   iv->t = {0.5f, 1.0f};
-   ++iv;
-   iv->v = {0.0f, -1.0f, 0.0f};
-   iv->n = {0.0f, -1.0f, 0.0f};
-   iv->t = {0.5f, 0.0f};
-   ++iv;
-   iv->v = {0.0f, 0.0f, 1.0f};
-   iv->n = {0.0f, 0.0f, 1.0f};
-   iv->t = {0.5f, 0.5f};
-   ++iv;
-   iv->v = {0.0f, 0.0f, -1.0f};
-   iv->n = {0.0f, 0.0f, -1.0f};
-   iv->t = {0.5f, 0.5f};
+   for (int i=0; i<=n; ++i) {
+      theta = (i*pi)/double(n);
+      for (int j=0; j<2*n; ++j) {
+         phi = (j*pi)/double(n);
+         iv->v = {float(sin(theta)*cos(phi)), float(sin(theta)*sin(phi)), float(cos(theta))};
+         iv->n = iv->v;
+         iv->t = {std::abs(j/float(n)-1.0f), i/float(n)};
+         ++iv;
+      }
+   }
    vbo.unmap();
 
    ibo.bind();
-   ibo.createStorage(BufferObject::STATIC_DRAW, 24);
-   unsigned char * ii = ibo.map(BufferObject::WRITE_ONLY);
-   *ii++ = 0;
-   *ii++ = 4;
-   *ii++ = 2;
-   *ii++ = 4;
-   *ii++ = 1;
-   *ii++ = 2;
-   *ii++ = 1;
-   *ii++ = 5;
-   *ii++ = 2;
-   *ii++ = 5;
-   *ii++ = 0;
-   *ii++ = 2;
-   *ii++ = 0;
-   *ii++ = 5;
-   *ii++ = 3;
-   *ii++ = 5;
-   *ii++ = 1;
-   *ii++ = 3;
-   *ii++ = 1;
-   *ii++ = 4;
-   *ii++ = 3;
-   *ii++ = 4;
-   *ii++ = 0;
-   *ii++ = 3;
+   ibo.createStorage(BufferObject::STATIC_DRAW, 2*n*(2*n+2));
+   unsigned short * ii = ibo.map(BufferObject::WRITE_ONLY);
+   for (int i=0; i<n; ++i) {
+      for (int j=0; j<=2*n; ++j) {
+         *ii++ = i*2*n+j%(2*n);
+         *ii++ = (i+1)*2*n+j%(2*n);
+      }
+      *ii++ = 65535;
+   }
    ibo.unmap();
 
    vao.enableVertexAttributeArray(0);
@@ -122,6 +98,8 @@ void Sphere::loadTexture() {
 }
 
 void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
+   glEnable(GL_PRIMITIVE_RESTART);
+   glPrimitiveRestartIndex(65535);
    vao.bind();
    vbo.bind();
    ibo.bind();
@@ -129,5 +107,6 @@ void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
    program.setUniform("mv", vMat*modelMat);
    program.setUniform("v", vMat);
    program.setUniform("mvp", vpMat*modelMat);
-   ibo.draw(BufferObject::TRIANGLES);
+   ibo.draw(BufferObject::TRIANGLE_STRIP);
+   glDisable(GL_PRIMITIVE_RESTART);
 }

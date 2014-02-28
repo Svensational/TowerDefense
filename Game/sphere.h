@@ -21,7 +21,7 @@ private:
    Mat4f modelMat;
    VAO vao;
    VBO<Vertex_V3F_N3F_T2F> vbo;
-   IBOub ibo;
+   IBOus ibo;
    ProgramObject program;
    Texture2D texture;
 
