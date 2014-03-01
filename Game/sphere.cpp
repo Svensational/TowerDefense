@@ -17,7 +17,7 @@ Sphere::~Sphere()
 }
 
 void Sphere::createBuffers() {
-   const int n = 8;
+   const int n = 16;
    const double pi = 3.141592654;
    double theta;
    double phi;
@@ -31,7 +31,7 @@ void Sphere::createBuffers() {
       theta = (i*pi)/double(n);
       for (int j=0; j<2*n; ++j) {
          phi = (j*pi)/double(n);
-         iv->v = {float(sin(theta)*cos(phi)), float(sin(theta)*sin(phi)), float(cos(theta))};
+         iv->v = {float(sin(theta)*cos(phi)), float(sin(theta)*sin(phi)), -float(cos(theta))};
          iv->n = iv->v;
          iv->t = {std::abs(j/float(n)-1.0f), i/float(n)};
          ++iv;
@@ -104,9 +104,10 @@ void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
    vbo.bind();
    ibo.bind();
    program.use();
-   program.setUniform("mv", vMat*modelMat);
+   Mat4f rot = Mat4f::rotation(90.0f, Vec3f(1.0f, 0.0f, 0.0f));
+   program.setUniform("mv", vMat*rot*modelMat);
    program.setUniform("v", vMat);
-   program.setUniform("mvp", vpMat*modelMat);
+   program.setUniform("mvp", vpMat*rot*modelMat);
    ibo.draw(BufferObject::TRIANGLE_STRIP);
    glDisable(GL_PRIMITIVE_RESTART);
 }
