@@ -65,6 +65,8 @@
       <File Name="texture.cpp"/>
       <File Name="texture2d.h"/>
       <File Name="texture2d.cpp"/>
+      <File Name="framebufferobject.h"/>
+      <File Name="framebufferobject.cpp"/>
     </VirtualDirectory>
     <File Name="sphere.h"/>
     <File Name="sphere.cpp"/>
