@@ -1,5 +1,6 @@
 #ifndef FRAMEBUFFEROBJECT_H
 #define FRAMEBUFFEROBJECT_H
+#include <string>
 
 class FramebufferObject {
 
@@ -16,6 +17,7 @@ public:
    FramebufferObject & operator =(FramebufferObject && other);
    void bind(Target target);
    void unbind() const;
+   std::string getStatusString() const;
 
 private:
    unsigned int name;
