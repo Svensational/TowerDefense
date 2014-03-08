@@ -67,6 +67,8 @@
       <File Name="texture2d.cpp"/>
       <File Name="framebufferobject.h"/>
       <File Name="framebufferobject.cpp"/>
+      <File Name="renderbufferobject.h"/>
+      <File Name="renderbufferobject.cpp"/>
     </VirtualDirectory>
     <File Name="sphere.h"/>
     <File Name="sphere.cpp"/>
