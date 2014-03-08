@@ -1,6 +1,7 @@
 #include "renderbufferobject.h"
 #include <utility>
 #include "gl_core_4_4.h"
+#include "size2i.h"
 
 RenderbufferObject::RenderbufferObject() :
    name(0)
@@ -20,6 +21,10 @@ RenderbufferObject::~RenderbufferObject() {
 
 void RenderbufferObject::bind() const {
    glBindRenderbuffer(GL_RENDERBUFFER, name);
+}
+
+void RenderbufferObject::createStorage(Size2i const & size, Format format, int samples) const {
+   glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, format, size.width(), size.height());
 }
 
 RenderbufferObject & RenderbufferObject::operator =(RenderbufferObject && other) {
