@@ -2,8 +2,10 @@
 #define RENDERBUFFEROBJECT_H
 
 struct Size2i;
+class FramebufferObject;
 
 class RenderbufferObject {
+   friend class FramebufferObject;
 
 public:
    enum Format {
@@ -18,10 +20,11 @@ public:
    RenderbufferObject & operator =(RenderbufferObject && other);
    void bind() const;
    void unbind() const;
-   void createStorage(Size2i const & size, Format format = DEPTH_STENCIL, int samples = 0) const;
+   void createStorage(Size2i const & size, Format format = DEPTH_STENCIL, int samples = 0);
 
 private:
    unsigned int name;
+   Format format;
 };
 
 #endif // RENDERBUFFEROBJECT_H

@@ -4,7 +4,7 @@
 #include "size2i.h"
 
 RenderbufferObject::RenderbufferObject() :
-   name(0)
+   name(0), format(DEPTH_STENCIL)
 {
    glGenRenderbuffers(1, &name);
 }
@@ -23,7 +23,8 @@ void RenderbufferObject::bind() const {
    glBindRenderbuffer(GL_RENDERBUFFER, name);
 }
 
-void RenderbufferObject::createStorage(Size2i const & size, Format format, int samples) const {
+void RenderbufferObject::createStorage(Size2i const & size, Format format, int samples) {
+   RenderbufferObject::format = format;
    glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, format, size.width(), size.height());
 }
 

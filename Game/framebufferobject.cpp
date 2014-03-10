@@ -1,6 +1,7 @@
 #include "framebufferobject.h"
 #include <utility>
 #include "gl_core_4_4.h"
+#include "renderbufferobject.h"
 
 FramebufferObject::FramebufferObject() :
    name(0), currentTarget(READ_DRAW)
@@ -16,6 +17,25 @@ FramebufferObject::FramebufferObject(FramebufferObject && other) :
 
 FramebufferObject::~FramebufferObject() {
    glDeleteFramebuffers(1, &name);
+}
+
+void FramebufferObject::attach(RenderbufferObject const & renderbufferObject, unsigned int pointIndex) {
+   int attachmentPoint;
+   switch (renderbufferObject.format) {
+   case RenderbufferObject::COLOR:
+      attachmentPoint = GL_COLOR_ATTACHMENT0 + pointIndex;
+      break;
+   case RenderbufferObject::DEPTH:
+      attachmentPoint = GL_DEPTH_ATTACHMENT;
+      break;
+   case RenderbufferObject::DEPTH_STENCIL:
+      attachmentPoint = GL_DEPTH_STENCIL_ATTACHMENT;
+      break;
+   default:
+      attachmentPoint = -1;
+   }
+   /// @todo make target variable?
+   glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, attachmentPoint, GL_RENDERBUFFER, renderbufferObject.name);
 }
 
 void FramebufferObject::bind(Target target) {

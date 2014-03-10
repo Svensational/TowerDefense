@@ -2,6 +2,8 @@
 #define FRAMEBUFFEROBJECT_H
 #include <string>
 
+class RenderbufferObject;
+
 class FramebufferObject {
 
 public:
@@ -17,6 +19,9 @@ public:
    FramebufferObject & operator =(FramebufferObject && other);
    void bind(Target target);
    void unbind() const;
+
+   void attach(RenderbufferObject const & renderbufferObject, unsigned int pointIndex = 0);
+
    std::string getStatusString() const;
 
 private:
