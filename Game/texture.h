@@ -1,7 +1,10 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+class FramebufferObject;
+
 class Texture {
+   friend class FramebufferObject;
 
 public:
    enum Target {

@@ -1,6 +1,7 @@
 #include "framebufferobject.h"
 #include <utility>
 #include "gl_core_4_4.h"
+#include "texture2d.h"
 #include "renderbufferobject.h"
 
 FramebufferObject::FramebufferObject() :
@@ -36,6 +37,11 @@ void FramebufferObject::attach(RenderbufferObject const & renderbufferObject, un
    }
    /// @todo make target variable?
    glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, attachmentPoint, GL_RENDERBUFFER, renderbufferObject.name);
+}
+
+void FramebufferObject::attach(Texture2D const & texture, unsigned int pointIndex) {
+   /// @todo make level variable
+   glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + pointIndex, texture.name, 0);
 }
 
 void FramebufferObject::bind(Target target) {
