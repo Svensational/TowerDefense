@@ -19,4 +19,21 @@ private:
    std::array<int, 2> size;
 };
 
+
+
+class Pos2i {
+
+public:
+   Pos2i(int x = 0, int y = 0);
+   int x() const;
+   int & x();
+   int y() const;
+   int & y();
+   int min() const;
+   int max() const;
+
+private:
+   std::array<int, 2> pos;
+};
+
 #endif // SIZE2I_H

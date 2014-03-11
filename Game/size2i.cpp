@@ -36,3 +36,34 @@ int Size2i::width() const {
 int & Size2i::width() {
    return size[0];
 }
+
+
+
+Pos2i::Pos2i(int x, int y) :
+   pos{x, y}
+{
+}
+
+int Pos2i::max() const {
+   return std::max(pos[0], pos[1]);
+}
+
+int Pos2i::min() const {
+   return std::min(pos[0], pos[1]);
+}
+
+int Pos2i::x() const {
+   return pos[0];
+}
+
+int & Pos2i::x() {
+   return pos[0];
+}
+
+int Pos2i::y() const {
+   return pos[1];
+}
+
+int & Pos2i::y() {
+   return pos[1];
+}
