@@ -21,7 +21,7 @@ public:
    void bind(Target target);
    void unbind() const;
 
-   void attach(Texture2D const & texture, unsigned int pointIndex = 0);
+   void attach(Texture2D const & texture, unsigned short pointIndex = 0, unsigned short level = 0);
    void attach(RenderbufferObject const & renderbufferObject, unsigned int pointIndex = 0);
 
    std::string getStatusString() const;

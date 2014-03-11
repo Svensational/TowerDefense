@@ -39,9 +39,8 @@ void FramebufferObject::attach(RenderbufferObject const & renderbufferObject, un
    glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, attachmentPoint, GL_RENDERBUFFER, renderbufferObject.name);
 }
 
-void FramebufferObject::attach(Texture2D const & texture, unsigned int pointIndex) {
-   /// @todo make level variable
-   glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + pointIndex, texture.name, 0);
+void FramebufferObject::attach(Texture2D const & texture, unsigned short pointIndex, unsigned short level) {
+   glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + pointIndex, texture.name, level);
 }
 
 void FramebufferObject::bind(Target target) {
