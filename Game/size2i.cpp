@@ -1,69 +1,113 @@
 #include "size2i.h"
+#include <algorithm>
+
+Size2i::Size2i() :
+   width(0), height(0)
+{
+}
 
 Size2i::Size2i(int width, int height) :
-   size{width, height}
+   width(width), height(height)
 {
 }
 
 int Size2i::area() const {
-   return size[0]*size[1];
+   return width*height;
 }
 
 float Size2i::aspectRatio() const {
-   return size[0]/float(size[1]);
-}
-
-int Size2i::height() const {
-   return size[1];
-}
-
-int & Size2i::height() {
-   return size[1];
+   return width/float(height);
 }
 
 int Size2i::max() const {
-   return std::max(size[0], size[1]);
+   return std::max(width, height);
 }
 
 int Size2i::min() const {
-   return std::min(size[0], size[1]);
-}
-
-int Size2i::width() const {
-   return size[0];
-}
-
-int & Size2i::width() {
-   return size[0];
+   return std::min(width, height);
 }
 
 
 
-Pos2i::Pos2i(int x, int y) :
-   pos{x, y}
+Point2i::Point2i() :
+   x(0), y(0)
 {
 }
 
-int Pos2i::max() const {
-   return std::max(pos[0], pos[1]);
+Point2i::Point2i(int x, int y) :
+   x(x), y(y)
+{
 }
 
-int Pos2i::min() const {
-   return std::min(pos[0], pos[1]);
+int Point2i::max() const {
+   return std::max(x, y);
 }
 
-int Pos2i::x() const {
-   return pos[0];
+int Point2i::min() const {
+   return std::min(x, y);
 }
 
-int & Pos2i::x() {
-   return pos[0];
+
+
+Rect2i::Rect2i() {
 }
 
-int Pos2i::y() const {
-   return pos[1];
+Rect2i::Rect2i(int left, int bottom, int width, int height) :
+   pos(left, bottom), _size(width, height)
+{
 }
 
-int & Pos2i::y() {
-   return pos[1];
+Rect2i::Rect2i(Point2i const & pos, Size2i const & size) :
+   pos(pos), _size(size)
+{
+}
+
+Rect2i::Rect2i(Point2i const & a, Point2i const & b) :
+   pos(std::min(a.x, b.x), std::min(a.y, b.y)),
+   _size(std::max(a.x, b.x)-pos.x, std::max(a.y, b.y)-pos.y)
+{
+}
+
+int Rect2i::bottom() const {
+   return pos.y;
+}
+
+int Rect2i::height() const {
+   return _size.height;
+}
+
+Size2i const & Rect2i::size() const {
+   return _size;
+}
+
+int Rect2i::left() const {
+   return pos.x;
+}
+
+Point2i Rect2i::lowerLeft() const {
+   return pos;
+}
+
+Point2i Rect2i::lowerRight() const {
+   return Point2i(pos.x+_size.width, pos.y);
+}
+
+int Rect2i::right() const {
+   return pos.x + _size.width;
+}
+
+int Rect2i::top() const {
+   return pos.y + _size.height;
+}
+
+Point2i Rect2i::upperLeft() const {
+   return Point2i(pos.x, pos.y+_size.height);
+}
+
+Point2i Rect2i::upperRight() const {
+   return Point2i(pos.x+_size.width, pos.y+_size.height);
+}
+
+int Rect2i::width() const {
+   return _size.width;
 }

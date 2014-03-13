@@ -77,6 +77,14 @@ FramebufferObject & FramebufferObject::operator =(FramebufferObject && other) {
    return *this;
 }
 
+void FramebufferObject::setViewport(Size2i const & size) const {
+   glViewport(0, 0, size.width, size.height);
+}
+
+void FramebufferObject::setViewport(Rect2i const & rect) const {
+   glViewport(rect.left(), rect.bottom(), rect.width(), rect.height());
+}
+
 void FramebufferObject::unbind() const {
    glBindFramebuffer(currentTarget, 0);
 }

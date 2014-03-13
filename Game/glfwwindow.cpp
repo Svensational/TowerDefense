@@ -5,7 +5,7 @@
 
 GLFWWindow::GLFWWindow(Size2i size, std::string title, bool fullscreen) :
    fullscreen(fullscreen), size(size), windowedSize(fullscreen?Size2i(800, 600):size), title(title),
-   handle(glfwCreateWindow(size.width(), size.height(), title.c_str(), fullscreen?glfwGetPrimaryMonitor():nullptr, nullptr))
+   handle(glfwCreateWindow(size.width, size.height, title.c_str(), fullscreen?glfwGetPrimaryMonitor():nullptr, nullptr))
 {
    init();
 }
@@ -142,7 +142,7 @@ void GLFWWindow::toggleFullscreen() {
       handle = glfwCreateWindow(vidMode->width, vidMode->height, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
    }
    else {
-      handle = glfwCreateWindow(windowedSize.width(), windowedSize.height(), title.c_str(), nullptr, nullptr);
+      handle = glfwCreateWindow(windowedSize.width, windowedSize.height, title.c_str(), nullptr, nullptr);
    }
    init();
 }

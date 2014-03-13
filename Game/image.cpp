@@ -30,7 +30,7 @@ Image::~Image() {
 }
 
 int Image::getHeight() const {
-   return size.height();
+   return size.height;
 }
 
 Size2i Image::getSize() const {
@@ -38,7 +38,7 @@ Size2i Image::getSize() const {
 }
 
 int Image::getWidth() const {
-   return size.width();
+   return size.width;
 }
 
 bool Image::isNull() const {
@@ -94,8 +94,8 @@ bool Image::savePNG(std::string const & filename) const {
    png_image image;
    memset(&image, 0, sizeof(image));
    image.version = PNG_IMAGE_VERSION;
-   image.width = size.width();
-   image.height = size.height();
+   image.width = size.width;
+   image.height = size.height;
    image.format = PNG_FORMAT_BGRA;
 
    return png_image_write_to_file(&image, filename.c_str(), 0,

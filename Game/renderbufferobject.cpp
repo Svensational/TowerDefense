@@ -25,7 +25,7 @@ void RenderbufferObject::bind() const {
 
 void RenderbufferObject::createStorage(Size2i const & size, Format format, int samples) {
    RenderbufferObject::format = format;
-   glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, format, size.width(), size.height());
+   glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, format, size.width, size.height);
 }
 
 RenderbufferObject & RenderbufferObject::operator =(RenderbufferObject && other) {

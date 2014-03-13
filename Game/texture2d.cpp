@@ -28,14 +28,14 @@ bool Texture2D::createStorage(Size2i size, int levels) {
 
    if (glTexStorage2D) {
       // try to allocate immutable storage (ogl 4.3)
-      glTexStorage2D(target, levels, GL_RGBA8, size.width(), size.height());
+      glTexStorage2D(target, levels, GL_RGBA8, size.width, size.height);
    }
    else {
       // ensure texture completeness despite mutable storage
       for (int i=0; i<levels; ++i) {
-         glTexImage2D(target, i, GL_RGBA8, size.width(), size.height(), 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
-         size = Size2i(std::max(1, size.width()>>1),
-                       std::max(1, size.height()>>1));
+         glTexImage2D(target, i, GL_RGBA8, size.width, size.height, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
+         size = Size2i(std::max(1, size.width>>1),
+                       std::max(1, size.height>>1));
       }
       glTexParameteri(target, GL_TEXTURE_MAX_LEVEL, levels-1);
    }
@@ -57,8 +57,8 @@ Image Texture2D::getImage(int level) const {
 
 Size2i Texture2D::getSize(int level) const {
    if (level<0) level = 0;
-   return Size2i(std::max(size.width()>>level, 1),
-                 std::max(size.height()>>level, 1));
+   return Size2i(std::max(size.width>>level, 1),
+                 std::max(size.height>>level, 1));
 }
 
 bool Texture2D::isCreated() const {

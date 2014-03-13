@@ -1,6 +1,7 @@
 #ifndef FRAMEBUFFEROBJECT_H
 #define FRAMEBUFFEROBJECT_H
 #include <string>
+#include "size2i.h"
 
 class Texture2D;
 class RenderbufferObject;
@@ -24,6 +25,8 @@ public:
    void attach(Texture2D const & texture, unsigned short pointIndex = 0, unsigned short level = 0);
    void attach(RenderbufferObject const & renderbufferObject, unsigned int pointIndex = 0);
 
+   void setViewport(Size2i const & size) const;
+   void setViewport(Rect2i const & rect) const;
    std::string getStatusString() const;
 
 private:
