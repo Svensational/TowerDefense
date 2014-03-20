@@ -32,6 +32,6 @@ void Window::onResized(Size2i newSize) {
 
 void Window::update(double deltaTime) {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   sphere.render(projectionMat*viewMat, viewMat);
+   sphere.render(projectionMat*viewMat, viewMat, deltaTime);
    swapBuffers();
 }

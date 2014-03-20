@@ -15,10 +15,11 @@ class Sphere {
 public:
    Sphere(Point3f const & pos, float size);
    virtual ~Sphere();
-   void render(Mat4f const & vpMat, Mat4f const & vMat);
+   void render(Mat4f const & vpMat, Mat4f const & vMat, double deltaTime = 0.0);
    void renderAndSave(Mat4f const & vpMat, Mat4f const & vMat);
 
 private:
+   float angle;
    Mat4f modelMat;
    VAO vao;
    VBO<Vertex_V3F_N3F_T2F> vbo;

@@ -7,6 +7,7 @@
 #include <iostream>
 
 Sphere::Sphere(Point3f const & pos, float size) :
+   angle(0.0f),
    modelMat(Mat4f::translation(Vec3f(pos)) * Mat4f::scaling(size, size, size))
 {
    loadTexture();
@@ -99,7 +100,10 @@ void Sphere::loadTexture() {
    texture.setMaxAnisotropy();
 }
 
-void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
+void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat, double deltaTime) {
+   angle += deltaTime*15.0f; // rotate by 15 degree per second
+   if (angle > 360.0) angle -= 360.0;
+
    glEnable(GL_PRIMITIVE_RESTART);
    glPrimitiveRestartIndex(65535);
    vao.bind();
@@ -107,7 +111,8 @@ void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
    ibo.bind();
    texture.bind();
    program.use();
-   Mat4f rot = Mat4f::rotation(90.0f, Vec3f(1.0f, 0.0f, 0.0f));
+   Mat4f rot = Mat4f::rotation(angle, Vec3f(0.0f, 1.0f, 0.0f)) *
+               Mat4f::rotation(90.0, Vec3f(1.0f, 0.0f, 0.0f));
    program.setUniform("mv", vMat*rot*modelMat);
    program.setUniform("v", vMat);
    program.setUniform("mvp", vpMat*rot*modelMat);
