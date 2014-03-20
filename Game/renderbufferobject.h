@@ -27,4 +27,6 @@ private:
    Format format;
 };
 
+using RBO = RenderbufferObject;
+
 #endif // RENDERBUFFEROBJECT_H

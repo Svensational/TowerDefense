@@ -2,6 +2,8 @@
 #include <cmath>
 #include "gl_core_4_4.h"
 #include "shaderobject.h"
+#include "renderbufferobject.h"
+#include "framebufferobject.h"
 #include <iostream>
 
 Sphere::Sphere(Point3f const & pos, float size) :
@@ -103,6 +105,7 @@ void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
    vao.bind();
    vbo.bind();
    ibo.bind();
+   texture.bind();
    program.use();
    Mat4f rot = Mat4f::rotation(90.0f, Vec3f(1.0f, 0.0f, 0.0f));
    program.setUniform("mv", vMat*rot*modelMat);
@@ -110,4 +113,31 @@ void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat) {
    program.setUniform("mvp", vpMat*rot*modelMat);
    ibo.draw(BufferObject::TRIANGLE_STRIP);
    glDisable(GL_PRIMITIVE_RESTART);
+}
+
+void Sphere::renderAndSave(Mat4f const & vpMat, Mat4f const & vMat) {
+   Size2i size(1024, 1024);
+
+   Texture2D tex;
+   tex.bind();
+   tex.createStorage(size, 1);
+
+   RenderbufferObject rbo;
+   rbo.bind();
+   rbo.createStorage(size);
+
+   FramebufferObject fbo;
+   fbo.bind(FBO::DRAW);
+   fbo.attach(tex);
+   fbo.attach(rbo);
+   fbo.setViewport(size);
+   fbo.clear(true, true);
+   //std::cout << fbo.getStatusString();
+
+   render(Mat4f::perspective(45.0, size.aspectRatio(), 0.1f, 10.0f) * vMat, vMat);
+
+   tex.bind();
+   tex.getImage().savePNG("spheretest.png");
+
+   fbo.unbind();
 }

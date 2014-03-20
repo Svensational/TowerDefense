@@ -8,6 +8,7 @@ Window::Window() :
 {
    // needs to be done because it can't be called from the baseclass c'tor
    initGL();
+   sphere.renderAndSave(projectionMat*viewMat, viewMat);
    onResized(size);
 }
 

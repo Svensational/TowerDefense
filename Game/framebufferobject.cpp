@@ -20,7 +20,7 @@ FramebufferObject::~FramebufferObject() {
    glDeleteFramebuffers(1, &name);
 }
 
-void FramebufferObject::attach(RenderbufferObject const & renderbufferObject, unsigned int pointIndex) {
+void FramebufferObject::attach(RenderbufferObject const & renderbufferObject, unsigned short pointIndex) {
    int attachmentPoint;
    switch (renderbufferObject.format) {
    case RenderbufferObject::COLOR:
@@ -46,6 +46,14 @@ void FramebufferObject::attach(Texture2D const & texture, unsigned short pointIn
 void FramebufferObject::bind(Target target) {
    currentTarget = target;
    glBindFramebuffer(currentTarget, name);
+}
+
+void FramebufferObject::clear(bool colorBuffer, bool depthbuffer, bool stencilBuffer) {
+   unsigned int bits = 0;
+   if (colorBuffer) bits |= GL_COLOR_BUFFER_BIT;
+   if (depthbuffer) bits |= GL_DEPTH_BUFFER_BIT;
+   if (stencilBuffer) bits |= GL_STENCIL_BUFFER_BIT;
+   glClear(bits);
 }
 
 std::string FramebufferObject::getStatusString() const {
