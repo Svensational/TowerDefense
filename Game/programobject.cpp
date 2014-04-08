@@ -59,6 +59,14 @@ ProgramObject & ProgramObject::operator =(ProgramObject && other) {
    return *this;
 }
 
+void ProgramObject::setUniform(int location, int val) {
+   glUniform1i(location, val);
+}
+
+void ProgramObject::setUniform(std::string uniformName, int val) const {
+   glUniform1i(getUniformLocation(uniformName), val);
+}
+
 void ProgramObject::setUniform(int location, float val) {
    glUniform1f(location, val);
 }

@@ -44,6 +44,10 @@ public:
    void draw(Mode mode) const {
       BufferObject::drawArrays(mode);
    }
+
+   size_t elementSize() const {
+      return sizeof(T);
+   }
 };
 
 template <typename T>

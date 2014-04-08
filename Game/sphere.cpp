@@ -29,14 +29,15 @@ void Sphere::createBuffers() {
    vbo.bind();
 
    vbo.createStorage(BufferObject::STATIC_DRAW, (n+1)*2*n);
-   Vertex_V3F_N3F_T2F * iv = vbo.map(BufferObject::WRITE_ONLY);
+   auto * iv = vbo.map(BufferObject::WRITE_ONLY);
    for (int i=0; i<=n; ++i) {
       theta = (i*pi)/double(n);
       for (int j=0; j<2*n; ++j) {
          phi = (j*pi)/double(n);
-         iv->v = {float(sin(theta)*cos(phi)), float(sin(theta)*sin(phi)), -float(cos(theta))};
-         iv->n = iv->v;
-         iv->t = {std::abs(j/float(n)-1.0f), i/float(n)};
+         iv->ver = {float(sin(theta)*cos(phi)), float(sin(theta)*sin(phi)), float(cos(theta))};
+         iv->nor = iv->ver;
+         iv->tan = {float(sin(theta+pi/2.0)*cos(phi)), float(sin(theta+pi/2.0)*sin(phi)), float(cos(theta+pi/2.0))};
+         iv->tex = {std::abs(j/float(n)-1.0f), i/float(n)};
          ++iv;
       }
    }
@@ -55,23 +56,26 @@ void Sphere::createBuffers() {
    ibo.unmap();
 
    vao.enableVertexAttributeArray(0);
-   vao.vertexAttributePointer(0, 3, GL_FLOAT, false, sizeof(Vertex_V3F_N3F_T2F), 0);
+   vao.vertexAttributePointer(0, 3, GL_FLOAT, false, vbo.elementSize(), 0);
 
    vao.enableVertexAttributeArray(1);
-   vao.vertexAttributePointer(1, 3, GL_FLOAT, false, sizeof(Vertex_V3F_N3F_T2F), 3*sizeof(float));
+   vao.vertexAttributePointer(1, 3, GL_FLOAT, false, vbo.elementSize(), 3*sizeof(float));
+
+   vao.enableVertexAttributeArray(2);
+   vao.vertexAttributePointer(2, 3, GL_FLOAT, false, vbo.elementSize(), 6*sizeof(float));
 
    vao.enableVertexAttributeArray(3);
-   vao.vertexAttributePointer(3, 2, GL_FLOAT, false, sizeof(Vertex_V3F_N3F_T2F), 6*sizeof(float));
+   vao.vertexAttributePointer(3, 2, GL_FLOAT, false, vbo.elementSize(), 9*sizeof(float));
 }
 
 void Sphere::loadProgram() {
    ShaderObject vertexShader(ShaderObject::VERTEX_SHADER);
-   vertexShader.loadSource("shaders/default.vertex.glsl");
+   vertexShader.loadSource("shaders/normalmapped.vertex.glsl");
    vertexShader.compile();
    std::cout << vertexShader.getLog() << std::endl;
 
    ShaderObject fragmentShader(ShaderObject::FRAGMENT_SHADER);
-   fragmentShader.loadSource("shaders/default.fragment.glsl");
+   fragmentShader.loadSource("shaders/normalmapped.fragment.glsl");
    fragmentShader.compile();
    std::cout << fragmentShader.getLog() << std::endl;
 
@@ -83,9 +87,10 @@ void Sphere::loadProgram() {
    program.detachShader(fragmentShader);
 
    program.use();
-   program.setUniform("lightDir", Vec3f(-1.0f, 1.0f, -1.0f));
+   program.setUniform("lightDir", Vec3f(1.0f, -1.0f, -1.0f));
    program.setUniform("lightColor", Vec3f(1.0f, 1.0f, 1.0f));
    program.setUniform("textureSampler", 0);
+   program.setUniform("normalMapSampler", 1);
 }
 
 void Sphere::loadTexture() {
@@ -98,6 +103,15 @@ void Sphere::loadTexture() {
    texture.setMinFilter(Texture::LINEAR, Texture::LINEAR);
    texture.setMagFilter(Texture::LINEAR);
    texture.setMaxAnisotropy();
+
+   image.loadPNG("images/test_n.png");
+   normalMap.bind();
+   normalMap.createStorage(image.getSize());
+   normalMap.setImage(image);
+   normalMap.generateMipmaps();
+   normalMap.setMinFilter(Texture::LINEAR, Texture::LINEAR);
+   normalMap.setMagFilter(Texture::LINEAR);
+   normalMap.setMaxAnisotropy();
 }
 
 void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat, double deltaTime) {
@@ -109,7 +123,8 @@ void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat, double deltaTime) {
    vao.bind();
    vbo.bind();
    ibo.bind();
-   texture.bind();
+   texture.bindToTIU(0);
+   normalMap.bindToTIU(1);
    program.use();
    Mat4f rot = Mat4f::rotation(angle, Vec3f(0.0f, 1.0f, 0.0f)) *
                Mat4f::rotation(90.0, Vec3f(1.0f, 0.0f, 0.0f));

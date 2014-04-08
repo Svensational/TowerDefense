@@ -35,6 +35,7 @@ public:
 
    virtual ~Texture();
    void bind() const;
+   void bindToTIU(unsigned short textureImageUnit) const;
    void unbind() const;
 
    void setMinFilter(Filter filter) const;
@@ -43,7 +44,7 @@ public:
    void setMaxAnisotropy(int value = -1);
    void setBorderColor(float r, float g, float b, float a) const;
 
-   static void setActiveTextureImageUnit(int unit);
+   static void setActiveTextureImageUnit(unsigned short unit);
    static int getMaxTextureImageUnits();
    static int getMaxAnisotropyMax();
 

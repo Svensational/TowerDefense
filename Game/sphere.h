@@ -22,10 +22,11 @@ private:
    float angle;
    Mat4f modelMat;
    VAO vao;
-   VBO<Vertex_V3F_N3F_T2F> vbo;
+   VBO<Ver3f_Nor3f_Tan3f_Tex2f> vbo;
    IBOus ibo;
    ProgramObject program;
    Texture2D texture;
+   Texture2D normalMap;
 
    void createBuffers();
    void loadProgram();

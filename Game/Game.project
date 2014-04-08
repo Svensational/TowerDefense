@@ -169,5 +169,7 @@
   <VirtualDirectory Name="Shader">
     <File Name="../bin/shaders/default.fragment.glsl"/>
     <File Name="../bin/shaders/default.vertex.glsl"/>
+    <File Name="../bin/shaders/normalmapped.fragment.glsl"/>
+    <File Name="../bin/shaders/normalmapped.vertex.glsl"/>
   </VirtualDirectory>
 </CodeLite_Project>

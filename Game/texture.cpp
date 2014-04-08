@@ -20,6 +20,11 @@ void Texture::bind() const {
    glBindTexture(target, name);
 }
 
+void Texture::bindToTIU(unsigned short textureImageUnit) const {
+   glActiveTexture(GL_TEXTURE0 + textureImageUnit);
+   glBindTexture(target, name);
+}
+
 int Texture::getMaxAnisotropyMax() {
    static int maxAnisotropyMax = getMaxAnisotropyMaxPriv();
    return maxAnisotropyMax;
@@ -43,7 +48,7 @@ int Texture::getMaxTextureImageUnitsPriv() {
    return maxTextureImageUnits;
 }
 
-void Texture::setActiveTextureImageUnit(int unit) {
+void Texture::setActiveTextureImageUnit(unsigned short unit) {
    glActiveTexture(GL_TEXTURE0 + unit);
 }
 
