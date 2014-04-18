@@ -8,7 +8,8 @@
 
 Sphere::Sphere(Point3f const & pos, float size) :
    angle(0.0f),
-   modelMat(Mat4f::translation(Vec3f(pos)) * Mat4f::scaling(size, size, size))
+   modelMat(Mat4f::translation(Vec3f(pos)) * Mat4f::scaling(size, size, size)),
+   font("fonts/text.ttf")
 {
    loadTexture();
    loadProgram();

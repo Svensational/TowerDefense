@@ -2,6 +2,11 @@
 #include <cstring>
 #include <png.h>
 
+Image::Rgba::Rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char a) :
+   r(r), g(g), b(b), a(a)
+{
+}
+
 Image::Image() :
    size(0, 0), data(nullptr)
 {

@@ -6,6 +6,16 @@
 class Image {
 
 public:
+
+   struct Rgba {
+      unsigned char r;
+      unsigned char g;
+      unsigned char b;
+      unsigned char a;
+
+      Rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+   };
+
    Image();
    explicit Image(Size2i size, unsigned char * data = nullptr);
    Image(Image && other);

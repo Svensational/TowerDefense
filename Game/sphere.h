@@ -9,6 +9,7 @@
 #include "programobject.h"
 #include "texture2d.h"
 #include "vertex.h"
+#include "font.h"
 
 class Sphere {
 
@@ -27,6 +28,7 @@ private:
    ProgramObject program;
    Texture2D texture;
    Texture2D normalMap;
+   Font font;
 
    void createBuffers();
    void loadProgram();

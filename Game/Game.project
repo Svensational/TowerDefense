@@ -38,6 +38,8 @@
       <File Name="glfwwindow.cpp"/>
       <File Name="image.cpp"/>
       <File Name="image.h"/>
+      <File Name="font.h"/>
+      <File Name="font.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Math">
       <File Name="vec3f.h"/>
@@ -77,6 +79,12 @@
     <File Name="../.gitignore"/>
     <File Name="../LICENSE"/>
     <File Name="../README.md"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="Shader">
+    <File Name="../bin/shaders/default.fragment.glsl"/>
+    <File Name="../bin/shaders/default.vertex.glsl"/>
+    <File Name="../bin/shaders/normalmapped.fragment.glsl"/>
+    <File Name="../bin/shaders/normalmapped.vertex.glsl"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -131,7 +139,7 @@
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
-      <Linker Options="-lglfw3;-lgdi32;-lopengl32;-lpng16;-s" Required="yes"/>
+      <Linker Options="-lglfw3;-lgdi32;-lopengl32;-lpng16;-lfreetype;-s" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../bin/$(ProjectName)" IntermediateDirectory="./Release" Command="../bin/$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
@@ -166,10 +174,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="Shader">
-    <File Name="../bin/shaders/default.fragment.glsl"/>
-    <File Name="../bin/shaders/default.vertex.glsl"/>
-    <File Name="../bin/shaders/normalmapped.fragment.glsl"/>
-    <File Name="../bin/shaders/normalmapped.vertex.glsl"/>
-  </VirtualDirectory>
 </CodeLite_Project>
