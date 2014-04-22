@@ -7,6 +7,8 @@ Image::Rgba::Rgba(unsigned char r, unsigned char g, unsigned char b, unsigned ch
 {
 }
 
+
+
 Image::Image() :
    size(0, 0), data(nullptr)
 {

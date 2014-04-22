@@ -22,10 +22,14 @@ public:
    Size2i getSize(int level = 0) const;
    Image getImage(int level = 0) const;
 
+   static Size2i getMaxSize();
+
 private:
    bool created;
    Size2i size;
    int levels;
+
+   static Size2i getMaxSizePriv();
 };
 
 #endif // TEXTURE2D_H

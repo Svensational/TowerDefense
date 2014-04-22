@@ -55,6 +55,17 @@ Image Texture2D::getImage(int level) const {
    return image;
 }
 
+Size2i Texture2D::getMaxSize() {
+   static Size2i maxSize = getMaxSizePriv();
+   return maxSize;
+}
+
+Size2i Texture2D::getMaxSizePriv() {
+   int maxSize;
+   glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxSize);
+   return Size2i(maxSize, maxSize);
+}
+
 Size2i Texture2D::getSize(int level) const {
    if (level<0) level = 0;
    return Size2i(std::max(size.width>>level, 1),
