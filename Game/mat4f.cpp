@@ -1,7 +1,7 @@
 #include "mat4f.h"
 #include <cmath>
 #include <utility>
-#include "vec3f.h"
+#include "vec.h"
 
 const float pi = 3.141592654f;
 
@@ -69,9 +69,9 @@ Mat4f Mat4f::inverted() const {
 
 Mat4f Mat4f::lookAt(Point3f const & eye, Point3f const & center, Vec3f const & up) {
    Mat4f transform;
-   Vec3f f = (center-eye).normalized();
-   Vec3f s = (f.crossProd(up)).normalized();
-   Vec3f u = s.crossProd(f);
+   Vec3f f = Vec3f(eye, center).normalized();
+   Vec3f s = cross(f, up).normalized();
+   Vec3f u = cross(s, f);
    transform.elements[ 0] =  s[0];
    transform.elements[ 1] =  u[0];
    transform.elements[ 2] = -f[0];

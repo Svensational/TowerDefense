@@ -1,7 +1,7 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "vec3f.h"
+#include "vec.h"
 #include "mat4f.h"
 #include "vertexarrayobject.h"
 #include "vertexbufferobject.h"

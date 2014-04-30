@@ -25,7 +25,7 @@ void GLFWWindow::closeCallback(GLFWwindow * handle) {
 void GLFWWindow::cursorPositionCallback(GLFWwindow * handle, double x, double y) {
    int width, height;
    glfwGetWindowSize(handle, &width, &height);
-   static_cast<GLFWWindow*>(glfwGetWindowUserPointer(handle))->onMouseMoved(Point2f(x/double(width-1), 1.0-y/double(height-1)));
+   static_cast<GLFWWindow*>(glfwGetWindowUserPointer(handle))->onMouseMoved(Point2d(x/double(width-1), 1.0-y/double(height-1)));
 }
 
 void GLFWWindow::destroy() {
@@ -108,7 +108,7 @@ void GLFWWindow::mouseButtonCallback(GLFWwindow * handle, int button, int action
 }
 
 void GLFWWindow::mouseWheelCallback(GLFWwindow * handle, double deltaX, double deltaY) {
-   static_cast<GLFWWindow*>(glfwGetWindowUserPointer(handle))->onMouseScrolled(Vec2f(deltaX, deltaY));
+   static_cast<GLFWWindow*>(glfwGetWindowUserPointer(handle))->onMouseScrolled(Vec2d(deltaX, deltaY));
 }
 
 void GLFWWindow::onClosed() {

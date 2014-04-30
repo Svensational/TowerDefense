@@ -36,7 +36,7 @@ void Sphere::createBuffers() {
       for (int j=0; j<2*n; ++j) {
          phi = (j*pi)/double(n);
          iv->ver = {float(sin(theta)*cos(phi)), float(sin(theta)*sin(phi)), float(cos(theta))};
-         iv->nor = iv->ver;
+         iv->nor = Vec3f(iv->ver);
          iv->tan = {float(sin(theta+pi/2.0)*cos(phi)), float(sin(theta+pi/2.0)*sin(phi)), float(cos(theta+pi/2.0))};
          iv->tex = {std::abs(j/float(n)-1.0f), i/float(n)};
          ++iv;

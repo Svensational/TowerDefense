@@ -89,7 +89,7 @@ Font::Glyph const & Font::getGlyph(unsigned int unicode) {
 float Font::getKerning(unsigned int a, unsigned int b) {
    if (!kernings.count(std::pair<unsigned int, unsigned int>(a, b))) {
       FT_Vector kerning;
-      int error = FT_Get_Kerning(face, FT_Get_Char_Index(face, a), FT_Get_Char_Index(face, b), FT_KERNING_UNFITTED, &kerning);
+      FT_Get_Kerning(face, FT_Get_Char_Index(face, a), FT_Get_Char_Index(face, b), FT_KERNING_UNFITTED, &kerning);
       kernings.insert(std::pair<std::pair<unsigned int, unsigned int>, float>(std::pair<unsigned int, unsigned int>(a, b), kerning.x/(64.0f*pixelSize)));
    }
    return kernings[std::pair<unsigned int, unsigned int>(a, b)];

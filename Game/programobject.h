@@ -1,10 +1,10 @@
 #ifndef PROGRAMOBJECT_H
 #define PROGRAMOBJECT_H
 #include <string>
+#include "vec.forward.h"
 
 class ShaderObject;
 class Mat4f;
-class Vec3f;
 
 class ProgramObject {
 

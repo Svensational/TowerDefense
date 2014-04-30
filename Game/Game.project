@@ -42,14 +42,12 @@
       <File Name="font.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Math">
-      <File Name="vec3f.h"/>
-      <File Name="vec3f.cpp"/>
-      <File Name="vec2f.h"/>
-      <File Name="vec2f.cpp"/>
       <File Name="size2i.h"/>
       <File Name="size2i.cpp"/>
       <File Name="mat4f.h"/>
       <File Name="mat4f.cpp"/>
+      <File Name="vec.h"/>
+      <File Name="vec.forward.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="OpenGL">
       <File Name="bufferobject.cpp"/>

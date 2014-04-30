@@ -1,8 +1,9 @@
 #ifndef GLFWWINDOW_H
 #define GLFWWINDOW_H
 
+#include <string>
 #include "size2i.h"
-#include "vec2f.h"
+#include "vec.h"
 
 class GLFWwindow;
 class GLFWApplication;
@@ -34,10 +35,10 @@ protected:
    virtual void onFocusLost() {};
    virtual void onIconified() {};
    virtual void onRestored() {};
-   virtual void onMouseMoved(Point2f newPosition) {};
+   virtual void onMouseMoved(Point2d newPosition) {};
    virtual void onMouseButtonPressed(int button, int modKeys) {};
    virtual void onMouseButtonReleased(int button, int modKeys) {};
-   virtual void onMouseScrolled(Vec2f delta) {};
+   virtual void onMouseScrolled(Vec2d delta) {};
    virtual void onKeyPressed(int key, bool repeat, int modKeys);
    virtual void onKeyReleased(int key, int modKeys) {};
    virtual void onCharacterEntered(char32_t unicode) {};

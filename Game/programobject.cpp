@@ -1,7 +1,7 @@
 #include "programobject.h"
 #include "gl_core_4_4.h"
 #include "mat4f.h"
-#include "vec3f.h"
+#include "vec.h"
 #include "shaderobject.h"
 
 ProgramObject::ProgramObject() :

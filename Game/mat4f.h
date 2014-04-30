@@ -1,12 +1,10 @@
 #ifndef MAT4X4F_H
 #define MAT4X4F_H
 #include <array>
+#include "vec.forward.h"
 
-class Vec3f;
-class Point3f;
+class Mat4f {
 
-class Mat4f
-{
 public:
    Mat4f();
    void loadIdentity();
