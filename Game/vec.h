@@ -248,7 +248,7 @@ Point<n, T> mix(Point<n, T> const & x, Point<n, T> const & y, double a = 0.5) {
 template <typename T>
 class Size2 {
 public:
-   Size2(T width, T height) :
+   Size2(T width = T(0), T height = T(0)) :
       elements{width, height}
    {}
 
@@ -304,8 +304,12 @@ private:
 template <typename T>
 class Rect {
 public:
+   Rect() :
+      _pos(Point<2u, T>()), _size(Size2<T>())
+   {}
+
    Rect(T left, T bottom, T width, T height) :
-      _pos(left, right), _size(width, height)
+      _pos(left, bottom), _size(width, height)
    {}
 
    Rect(Point<2u, T> const & pos, Size2<T> const & size) :

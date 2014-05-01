@@ -10,11 +10,9 @@ struct FT_FaceRec_;
 class Font {
 
    struct Glyph {
-      float xMin, xMax;
-      float yMin, yMax;
-      float sMin, sMax;
-      float tMin, tMax;
-      float advance;
+      Rectf pos;
+      Rectf tex;
+      Vec2f advance;
    };
 
 public:

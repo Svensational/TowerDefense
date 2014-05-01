@@ -48,15 +48,16 @@ void Font::addGlyph(unsigned int unicode) {
 
    // create own glyph struct
    Glyph glyph;
-   glyph.sMin = penX/float(image.getWidth());
-   glyph.sMax = (penX+slot->bitmap.width)/float(image.getWidth());
-   glyph.tMin = penY/float(image.getHeight());
-   glyph.tMax = (penY+slot->bitmap.rows)/float(image.getHeight());
-   glyph.xMin = slot->bitmap_left / float(pixelSize);
-   glyph.xMax = glyph.xMin + slot->bitmap.width/float(pixelSize);
-   glyph.yMax = slot->bitmap_top / float(pixelSize);
-   glyph.yMin = glyph.yMax - slot->bitmap.rows/float(pixelSize);
-   glyph.advance = slot->advance.x / float(pixelSize);
+   glyph.pos = Rectf(slot->bitmap_left / float(pixelSize),
+                     (slot->bitmap_top-slot->bitmap.rows) / float(pixelSize),
+                     slot->bitmap.width / float(pixelSize),
+                     slot->bitmap.rows / float(pixelSize));
+   glyph.tex = Rectf(penX / float(image.getWidth()),
+                     penY / float(image.getHeight()),
+                     slot->bitmap.width / float(image.getWidth()),
+                     slot->bitmap.rows / float(image.getHeight()));
+   glyph.advance = Vec2f(slot->advance.x / float(pixelSize),
+                         slot->advance.y / float(pixelSize));
 
    Image::Rgba * target = reinterpret_cast<Image::Rgba *>(image.rawData())
                           + penY*image.getWidth() + penX;
