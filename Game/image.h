@@ -1,7 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 #include <string>
-#include "size2i.h"
+#include "vec.h"
 
 class Image {
 

@@ -1,6 +1,7 @@
 #include "framebufferobject.h"
 #include <utility>
 #include "gl_core_4_4.h"
+#include "vec.h"
 #include "texture2d.h"
 #include "renderbufferobject.h"
 
@@ -86,10 +87,10 @@ FramebufferObject & FramebufferObject::operator =(FramebufferObject && other) {
 }
 
 void FramebufferObject::setViewport(Size2i const & size) const {
-   glViewport(0, 0, size.width, size.height);
+   glViewport(0, 0, size.width(), size.height());
 }
 
-void FramebufferObject::setViewport(Rect2i const & rect) const {
+void FramebufferObject::setViewport(Recti const & rect) const {
    glViewport(rect.left(), rect.bottom(), rect.width(), rect.height());
 }
 

@@ -42,8 +42,6 @@
       <File Name="font.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Math">
-      <File Name="size2i.h"/>
-      <File Name="size2i.cpp"/>
       <File Name="mat4f.h"/>
       <File Name="mat4f.cpp"/>
       <File Name="vec.h"/>

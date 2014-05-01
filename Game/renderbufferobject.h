@@ -1,7 +1,7 @@
 #ifndef RENDERBUFFEROBJECT_H
 #define RENDERBUFFEROBJECT_H
+#include "vec.forward.h"
 
-struct Size2i;
 class FramebufferObject;
 
 class RenderbufferObject {

@@ -2,7 +2,6 @@
 #define GLFWWINDOW_H
 
 #include <string>
-#include "size2i.h"
 #include "vec.h"
 
 class GLFWwindow;
@@ -30,15 +29,15 @@ protected:
    void destroy();
    virtual void initGL() {};
    virtual void onClosed();
-   virtual void onResized(Size2i newSize) {};
+   virtual void onResized(Size2i const & newSize) {};
    virtual void onFocusGained() {};
    virtual void onFocusLost() {};
    virtual void onIconified() {};
    virtual void onRestored() {};
-   virtual void onMouseMoved(Point2d newPosition) {};
+   virtual void onMouseMoved(Point2d const & newPosition) {};
    virtual void onMouseButtonPressed(int button, int modKeys) {};
    virtual void onMouseButtonReleased(int button, int modKeys) {};
-   virtual void onMouseScrolled(Vec2d delta) {};
+   virtual void onMouseScrolled(Vec2d const & delta) {};
    virtual void onKeyPressed(int key, bool repeat, int modKeys);
    virtual void onKeyReleased(int key, int modKeys) {};
    virtual void onCharacterEntered(char32_t unicode) {};

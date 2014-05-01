@@ -1,7 +1,7 @@
 #ifndef FRAMEBUFFEROBJECT_H
 #define FRAMEBUFFEROBJECT_H
 #include <string>
-#include "size2i.h"
+#include "vec.forward.h"
 
 class Texture2D;
 class RenderbufferObject;
@@ -26,7 +26,7 @@ public:
    void attach(RenderbufferObject const & renderbufferObject, unsigned short pointIndex = 0);
 
    void setViewport(Size2i const & size) const;
-   void setViewport(Rect2i const & rect) const;
+   void setViewport(Recti const & rect) const;
    void clear(bool colorBuffer = true, bool depthbuffer = false, bool stencilBuffer = false);
    std::string getStatusString() const;
 

@@ -11,7 +11,7 @@ public:
    Window();
    ~Window();
    void update(double deltaTime);
-   void onResized(Size2i newSize);
+   void onResized(Size2i const & newSize);
 
 private:
    Mat4f viewMat;

@@ -25,8 +25,8 @@ void Window::initGL() {
    viewMat = Mat4f::lookAt(Point3f(0.0f, 0.0f, 4.0f), Point3f(), Vec3f(0.0f, 1.0f, 0.0f));
 }
 
-void Window::onResized(Size2i newSize) {
-   glViewport(0, 0, newSize.width, newSize.height);
+void Window::onResized(Size2i const & newSize) {
+   glViewport(0, 0, newSize.width(), newSize.height());
    projectionMat = Mat4f::perspective(45.0, newSize.aspectRatio(), 0.1f, 10.0f);
 }
 
