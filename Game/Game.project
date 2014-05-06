@@ -70,6 +70,8 @@
     </VirtualDirectory>
     <File Name="sphere.h"/>
     <File Name="sphere.cpp"/>
+    <File Name="text.h"/>
+    <File Name="text.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
     <File Name="../.gitignore"/>
@@ -81,6 +83,8 @@
     <File Name="../bin/shaders/default.vertex.glsl"/>
     <File Name="../bin/shaders/normalmapped.fragment.glsl"/>
     <File Name="../bin/shaders/normalmapped.vertex.glsl"/>
+    <File Name="../bin/shaders/text.fragment.glsl"/>
+    <File Name="../bin/shaders/text.vertex.glsl"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

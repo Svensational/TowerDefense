@@ -1,5 +1,8 @@
 #include "window.h"
 #include "gl_core_4_4.h"
+
+#include "font.h"
+#include "text.h"
 #include <iostream>
 
 Window::Window() :
@@ -32,6 +35,12 @@ void Window::onResized(Size2i const & newSize) {
 
 void Window::update(double deltaTime) {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   sphere.render(projectionMat*viewMat, viewMat, deltaTime);
+
+   //sphere.render(projectionMat*viewMat, viewMat, deltaTime);
+
+   static Font font("fonts/text.ttf");
+   static Text text(std::u32string(), &font);
+   text.render(projectionMat*viewMat);
+
    swapBuffers();
 }

@@ -3,13 +3,13 @@
 #include <array>
 #include "vec.h"
 
-struct Ver3f_Tex2f {
-   Point3f ver;
+struct Pos2f_Tex2f {
+   Point2f pos;
    Point2f tex;
 };
 
-struct Ver3f_Nor3f_Tan3f_Tex2f {
-   Point3f ver;
+struct Pos3f_Nor3f_Tan3f_Tex2f {
+   Point3f pos;
    Vec3f   nor;
    Vec3f   tan;
    Point2f tex;

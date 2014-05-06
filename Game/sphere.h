@@ -9,7 +9,6 @@
 #include "programobject.h"
 #include "texture2d.h"
 #include "vertex.h"
-#include "font.h"
 
 class Sphere {
 
@@ -23,12 +22,11 @@ private:
    float angle;
    Mat4f modelMat;
    VAO vao;
-   VBO<Ver3f_Nor3f_Tan3f_Tex2f> vbo;
+   VBO<Pos3f_Nor3f_Tan3f_Tex2f> vbo;
    IBOus ibo;
    ProgramObject program;
    Texture2D texture;
    Texture2D normalMap;
-   Font font;
 
    void createBuffers();
    void loadProgram();
