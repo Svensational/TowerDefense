@@ -3,7 +3,6 @@
 
 #include "glfwwindow.h"
 #include "mat4f.h"
-#include "sphere.h"
 
 class Window : public GLFWWindow {
 
@@ -16,7 +15,6 @@ public:
 private:
    Mat4f viewMat;
    Mat4f projectionMat;
-   Sphere sphere;
 
    void initGL();
 };

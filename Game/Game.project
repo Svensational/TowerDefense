@@ -72,6 +72,8 @@
     <File Name="sphere.cpp"/>
     <File Name="text.h"/>
     <File Name="text.cpp"/>
+    <File Name="textrenderer.h"/>
+    <File Name="textrenderer.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
     <File Name="../.gitignore"/>

@@ -4,8 +4,6 @@
 #include "image.h"
 #include "texture2d.h"
 
-#include <iostream>
-
 FT_Library Font::library = nullptr;
 
 Font::Font(std::string const & filename, int pixelSize) :
@@ -14,7 +12,7 @@ Font::Font(std::string const & filename, int pixelSize) :
    init(filename);
 
    // init with common glyphs
-   initMap();
+   //initMap();
 }
 
 Font::~Font() {
@@ -53,12 +51,11 @@ void Font::addGlyph(unsigned int unicode) {
    glyph.advance = Vec2f((slot->advance.x>>6) / float(pixelSize),
                          (slot->advance.y>>6) / float(pixelSize));
 
-   Image::Rgba * target = reinterpret_cast<Image::Rgba *>(image->rawData())
-                          + penY*image->getWidth() + penX;
+   // copy rendered freeType glyph to image
    unsigned char * src = slot->bitmap.buffer;
    if (slot->bitmap.pitch > 0) src += slot->bitmap.pitch*(slot->bitmap.rows-1);
-
-   // copy rendered freeType glyph to image
+   Image::Rgba * target = reinterpret_cast<Image::Rgba *>(image->rawData())
+                          + penY*image->getWidth() + penX;
    for (int y=0; y<slot->bitmap.rows; ++y) {
       for (int x=0; x<slot->bitmap.width; ++x) {
          *(target+x) = Image::Rgba(255, 255, 255, *(src+x));

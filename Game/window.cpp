@@ -1,17 +1,17 @@
 #include "window.h"
 #include "gl_core_4_4.h"
 
+#include "sphere.h"
 #include "font.h"
 #include "text.h"
+#include "textrenderer.h"
 #include <iostream>
 
 Window::Window() :
-   GLFWWindow(Size2i(800, 600), std::string("Tower Defense")),
-   sphere(Point3f(), 1.0f)
+   GLFWWindow(Size2i(800, 600), std::string("Tower Defense"))
 {
    // needs to be done because it can't be called from the baseclass c'tor
    initGL();
-   sphere.renderAndSave(projectionMat*viewMat, viewMat);
    onResized(size);
 }
 
@@ -36,11 +36,16 @@ void Window::onResized(Size2i const & newSize) {
 void Window::update(double deltaTime) {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+   //static Sphere sphere(Point3f(), 1.0f);
    //sphere.render(projectionMat*viewMat, viewMat, deltaTime);
 
+   static int pass = 0;
    static Font font("fonts/text.ttf");
+   static TextRenderer textRenderer;
    static Text text(std::u32string(), &font);
-   text.render(projectionMat*viewMat);
+   if (pass == 0) textRenderer.addText(&text);
+   ++pass;
+   textRenderer.render(projectionMat*viewMat);
 
    swapBuffers();
 }
