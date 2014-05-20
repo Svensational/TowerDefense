@@ -13,7 +13,7 @@ public:
 
    bool createStorage(Size2i size, int levels = -1);
    void setImage(Image const & image, int level = 0) const;
-   void setSubImage(int xOffset, int yOffset, Image const & image, int level = 0) const;
+   void setSubImage(Point2i const & offset, Image const & image, int level = 0) const;
    void setWrapHeuristics(WrapHeuristic heuristic) const;
    void setWrapHeuristics(WrapHeuristic heuristicS, WrapHeuristic heuristicT) const;
    void generateMipmaps() const;

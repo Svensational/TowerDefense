@@ -48,7 +48,7 @@ void Texture2D::generateMipmaps() const {
 }
 
 Image Texture2D::getImage(int level) const {
-   Image image(getSize(level));
+   Image image(Image::BGRA, getSize(level));
    if (created) {
       glGetTexImage(target, level, GL_BGRA, GL_UNSIGNED_BYTE, image.rawData());
    }
@@ -86,11 +86,11 @@ Texture2D & Texture2D::operator =(Texture2D && other) {
 }
 
 void Texture2D::setImage(Image const & image, int level) const {
-   setSubImage(0, 0, image, level);
+   setSubImage(Point2i(), image, level);
 }
 
-void Texture2D::setSubImage(int xOffset, int yOffset, Image const & image, int level) const {
-   glTexSubImage2D(target, level, xOffset, yOffset,
+void Texture2D::setSubImage(Point2i const & offset, Image const & image, int level) const {
+   glTexSubImage2D(target, level, offset[0], offset[1],
                    image.getWidth(), image.getHeight(),
                    GL_BGRA, GL_UNSIGNED_BYTE, image.rawData());
 }

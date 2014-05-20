@@ -2,38 +2,45 @@
 #include <cstring>
 #include <png.h>
 
-Image::Rgba::Rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char a) :
-   r(r), g(g), b(b), a(a)
+Image::Image(Format format, Size2i size, unsigned char * data) :
+   format(format), size(size), data(nullptr)
 {
-}
-
-
-
-Image::Image() :
-   size(0, 0), data(nullptr)
-{
-}
-
-Image::Image(Size2i size, unsigned char * data) :
-   size(size), data(nullptr)
-{
-   this->data = new unsigned char[size.area()*4];
-   if (data) {
-      memcpy(this->data, data, size.area()*4);
+   if (size.area()) {
+      this->data = new unsigned char[size.area()*channelCount()];
+      if (data) {
+         memcpy(this->data, data, size.area()*channelCount());
+      }
+      /*else {
+         memset(this->data, 0u, size.area()*channelCount());
+      }*/
    }
-   /*else {
-      memset(this->data, 0, size.area()*4);
-   }*/
 }
 
 Image::Image(Image && other) :
-   size(other.size), data(other.data)
+   format(other.format), size(other.size), data(other.data)
 {
    other.data = nullptr;
 }
 
 Image::~Image() {
    delete[] data;
+}
+
+unsigned int Image::channelCount() const {
+   switch (format) {
+      case GRAY:
+         return 1u;
+      case GA:
+         return 2u;
+      case RGB:
+      case BGR:
+         return 3u;
+      case RGBA:
+      case BGRA:
+         return 4u;
+      default:
+         return 0u;
+   }
 }
 
 int Image::getHeight() const {
@@ -62,13 +69,12 @@ bool Image::loadPNG(std::string const & filename) {
    }
 
    png_bytep buffer;
-   // on most systems BGRA is preferred for pixel upload
-   image.format = PNG_FORMAT_BGRA;
+   image.format = pngFormat();
    buffer = new png_byte[PNG_IMAGE_SIZE(image)];
 
    // a negative stride indicates that the bottom-most row is first in the buffer
    // (as expected by openGL)
-   if (!png_image_finish_read(&image, nullptr, buffer, -image.width*4, nullptr)) {
+   if (!png_image_finish_read(&image, nullptr, buffer, -image.width*channelCount(), nullptr)) {
       png_image_free(&image);
       return false;
    }
@@ -80,9 +86,30 @@ bool Image::loadPNG(std::string const & filename) {
 }
 
 Image & Image::operator =(Image && other) {
+   format = other.format;
    size = other.size;
    std::swap(data, other.data);
    return *this;
+}
+
+unsigned int Image::pngFormat() const {
+   switch (format) {
+      case GRAY:
+         return PNG_FORMAT_GRAY;
+      case GA:
+         return PNG_FORMAT_GA;
+      case RGB:
+         return PNG_FORMAT_RGB;
+      case BGR:
+         return PNG_FORMAT_BGR;
+      case RGBA:
+         return PNG_FORMAT_RGBA;
+      case BGRA:
+         // on most systems BGRA is preferred for pixel upload
+         return PNG_FORMAT_BGRA;
+      default:
+         return 0u;
+   }
 }
 
 unsigned char * Image::rawData() {
@@ -103,8 +130,8 @@ bool Image::savePNG(std::string const & filename) const {
    image.version = PNG_IMAGE_VERSION;
    image.width = size.width();
    image.height = size.height();
-   image.format = PNG_FORMAT_BGRA;
+   image.format = pngFormat();
 
    return png_image_write_to_file(&image, filename.c_str(), 0,
-                                  data, -image.width*4, nullptr);
+                                  data, -image.width*channelCount(), nullptr);
 }

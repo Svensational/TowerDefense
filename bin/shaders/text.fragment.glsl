@@ -8,7 +8,7 @@ uniform vec3 textColor;
 out vec3 color;
 
 void main() {
-   float alpha = texture(textTexture, texCoords).a;
+   float alpha = texture(textTexture, texCoords).r;
    if (alpha < 0.01) {
       discard;
    }
