@@ -54,11 +54,10 @@ void Font::addGlyph(unsigned int unicode) {
    // copy rendered freeType glyph to image
    unsigned char * src = slot->bitmap.buffer;
    if (slot->bitmap.pitch > 0) src += slot->bitmap.pitch*(slot->bitmap.rows-1);
-   Image::Bgra * target = reinterpret_cast<Image::Bgra *>(image->rawData())
-                          + penY*image->getWidth() + penX;
+   unsigned char * target = image->rawData() + penY*image->getWidth() + penX;
    for (int y=0; y<slot->bitmap.rows; ++y) {
       for (int x=0; x<slot->bitmap.width; ++x) {
-         *(target+x) = Image::Bgra(*(src+x), *(src+x), *(src+x), *(src+x));
+         *(target+x) = *(src+x);
       }
       target += image->getWidth();
       src -= slot->bitmap.pitch;
@@ -110,12 +109,12 @@ void Font::init(std::string const & filename) {
    FT_Set_Pixel_Sizes(face, 0, pixelSize);
 
    // Init image
-   image = new Image(Image::BGRA, Size2i(2048, 1024));
+   image = new Image(Image::GRAY, Size2i(2048, 1024));
 
    // Init texture
    texture = new Texture2D();
    texture->bind();
-   texture->createStorage(image->getSize());
+   texture->createStorage(image->getSize(), image->channelCount());
    texture->setMinFilter(Texture::LINEAR, Texture::LINEAR);
    texture->setMagFilter(Texture::LINEAR);
    texture->setMaxAnisotropy();

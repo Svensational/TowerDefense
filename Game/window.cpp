@@ -36,16 +36,16 @@ void Window::onResized(Size2i const & newSize) {
 void Window::update(double deltaTime) {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   static Sphere sphere(Point3f(), 1.0f);
-   sphere.render(projectionMat*viewMat, viewMat, deltaTime);
+   //static Sphere sphere(Point3f(), 1.0f);
+   //sphere.render(projectionMat*viewMat, viewMat, deltaTime);
 
-   /*static int pass = 0;
+   static int pass = 0;
    static Font font("fonts/text.ttf");
    static TextRenderer textRenderer;
    static Text text(std::u32string(), &font);
    if (pass == 0) textRenderer.addText(&text);
    ++pass;
-   textRenderer.render(projectionMat*viewMat);*/
+   textRenderer.render(projectionMat*viewMat);
 
    swapBuffers();
 }
