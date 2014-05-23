@@ -14,13 +14,13 @@ Texture2D::Texture2D(Texture2D && other) :
    other.name = 0;
 }
 
-bool Texture2D::createStorage(Size2i size, unsigned int channels, int levels) {
+bool Texture2D::createStorage(Size2i size, unsigned int channels, bool compressed, int levels) {
    if (created) {
       return false;
    }
 
    // levels = -1 means max mipmap level according to texture dimensions
-   const int maxLevels = ilogb(size.max())+1;
+   const int maxLevels = ilogb(size.max()) + 1;
    if (levels == 0) levels = 1;
    if (levels < 0 || levels > maxLevels) levels = maxLevels;
 
@@ -30,12 +30,12 @@ bool Texture2D::createStorage(Size2i size, unsigned int channels, int levels) {
 
    if (glTexStorage2D) {
       // try to allocate immutable storage (ogl 4.3)
-      glTexStorage2D(target, levels, glInternalFormat(), size.width(), size.height());
+      glTexStorage2D(target, levels, glInternalFormat(compressed), size.width(), size.height());
    }
    else {
       // ensure texture completeness despite mutable storage
       for (int i=0; i<levels; ++i) {
-         glTexImage2D(target, i, glInternalFormat(), size.width(), size.height(), 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
+         glTexImage2D(target, i, glInternalFormat(compressed), size.width(), size.height(), 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
          size = Size2i(std::max(1, size.width()>>1),
                        std::max(1, size.height()>>1));
       }
