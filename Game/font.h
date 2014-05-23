@@ -36,6 +36,7 @@ private:
    void init(std::string const & filename);
    void initMap();
    void addGlyph(unsigned int unicode);
+   void updateVRAM();
 };
 
 #endif // FONT_H

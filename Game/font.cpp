@@ -12,7 +12,7 @@ Font::Font(std::string const & filename, int pixelSize) :
    init(filename);
 
    // init with common glyphs
-   //initMap();
+   initMap();
 }
 
 Font::~Font() {
@@ -63,11 +63,6 @@ void Font::addGlyph(unsigned int unicode) {
       src -= slot->bitmap.pitch;
    }
 
-   // upload image to VRAM
-   texture->bind();
-   texture->setImage(*image);
-   texture->generateMipmaps();
-
    penX += slot->bitmap.width + spacing;
    lineHeight = std::max(lineHeight, slot->bitmap.rows);
 
@@ -82,6 +77,7 @@ void Font::bindToTIU(unsigned short textureImageUnit) const {
 Font::Glyph const & Font::getGlyph(unsigned int unicode) {
    if (!glyphs.count(unicode)) {
       addGlyph(unicode);
+      updateVRAM();
    }
    return glyphs[unicode];
 }
@@ -124,4 +120,11 @@ void Font::initMap() {
    for (int i=32; i<127; ++i) {
       addGlyph(i);
    }
+   updateVRAM();
+}
+
+void Font::updateVRAM() {
+   texture->bind();
+   texture->setImage(*image);
+   texture->generateMipmaps();
 }
