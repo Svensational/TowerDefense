@@ -6,7 +6,7 @@
 
 FT_Library Font::library = nullptr;
 
-Font::Font(std::string const & filename, int pixelSize) :
+Font::Font(std::string const & filename, unsigned short pixelSize) :
    pixelSize(pixelSize), face(nullptr), image(nullptr), texture(nullptr)
 {
    init(filename);
@@ -38,19 +38,6 @@ void Font::addGlyph(unsigned int unicode) {
       lineHeight = 0;
    }
 
-   // create own glyph struct
-   Glyph glyph;
-   glyph.pos = Rectf(slot->bitmap_left / float(pixelSize),
-                     (slot->bitmap_top-slot->bitmap.rows) / float(pixelSize),
-                     slot->bitmap.width / float(pixelSize),
-                     slot->bitmap.rows / float(pixelSize));
-   glyph.tex = Rectf(penX / float(image->getWidth()),
-                     penY / float(image->getHeight()),
-                     slot->bitmap.width / float(image->getWidth()),
-                     slot->bitmap.rows / float(image->getHeight()));
-   glyph.advance = Vec2f((slot->advance.x>>6) / float(pixelSize),
-                         (slot->advance.y>>6) / float(pixelSize));
-
    // copy rendered freeType glyph to image
    unsigned char * src = slot->bitmap.buffer;
    if (slot->bitmap.pitch > 0) src += slot->bitmap.pitch*(slot->bitmap.rows-1);
@@ -63,11 +50,22 @@ void Font::addGlyph(unsigned int unicode) {
       src -= slot->bitmap.pitch;
    }
 
+   // create own glyph struct in glyph map
+   Glyph & glyph = glyphs[unicode];
+   glyph.pos = Rectf(slot->bitmap_left / float(pixelSize),
+                     (slot->bitmap_top-slot->bitmap.rows) / float(pixelSize),
+                     slot->bitmap.width / float(pixelSize),
+                     slot->bitmap.rows / float(pixelSize));
+   glyph.tex = Rectf(penX / float(image->getWidth()),
+                     penY / float(image->getHeight()),
+                     slot->bitmap.width / float(image->getWidth()),
+                     slot->bitmap.rows / float(image->getHeight()));
+   glyph.advance = Vec2f((slot->advance.x>>6) / float(pixelSize),
+                         (slot->advance.y>>6) / float(pixelSize));
+
+   // update static variables
    penX += slot->bitmap.width + spacing;
    lineHeight = std::max(lineHeight, slot->bitmap.rows);
-
-   // insert glyph into glyph map
-   glyphs.insert(std::pair<unsigned int, Glyph>(unicode, glyph));
 }
 
 void Font::bindToTIU(unsigned short textureImageUnit) const {
@@ -117,7 +115,7 @@ void Font::init(std::string const & filename) {
 }
 
 void Font::initMap() {
-   for (int i=32; i<127; ++i) {
+   for (unsigned int i=32u; i<127u; ++i) {
       addGlyph(i);
    }
    updateVRAM();

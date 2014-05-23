@@ -18,14 +18,14 @@ public:
       Vec2f advance;
    };
 
-   explicit Font(std::string const & filename, int pixelSize = 128);
+   explicit Font(std::string const & filename, unsigned short pixelSize = 128u);
    virtual ~Font();
    Glyph const & getGlyph(unsigned int unicode);
    Vec2f getKerning(unsigned int a, unsigned int b);
    void bindToTIU(unsigned short textureImageUnit) const;
 
 private:
-   int pixelSize;
+   unsigned short pixelSize;
    FT_FaceRec_ * face;
    Image * image;
    Texture2D * texture;
