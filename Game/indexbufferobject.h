@@ -10,10 +10,21 @@ public:
    IndexBufferObject() :
       BufferObject()
    {
+      switch (sizeof(T)) {
+         case 1:
+            type = UNSIGNED_BYTE;
+            break;
+         case 2:
+            type = UNSIGNED_SHORT;
+            break;
+         default:
+            type = UNSIGNED_INT;
+            break;
+      }
    }
 
    IndexBufferObject(IndexBufferObject && other) :
-      BufferObject(other.name, other.target, other.count)
+      BufferObject(other.name, other.target, other.count), type(other.type)
    {
       other.name = 0;
    }
@@ -22,6 +33,7 @@ public:
       std::swap(name, other.name);
       target = other.target;
       count = other.count;
+      type = other.type;
       return *this;
    }
 
@@ -42,8 +54,15 @@ public:
    }
 
    void draw(Mode mode) const {
-      BufferObject::drawElements(mode, sizeof(T));
+      BufferObject::drawElements(mode, type, count);
    }
+
+   void draw(Mode mode, int count) const {
+      BufferObject::drawElements(mode, type, count);
+   }
+
+private:
+   IBOType type;
 };
 
 template <typename T>

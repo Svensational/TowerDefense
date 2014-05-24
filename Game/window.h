@@ -13,6 +13,7 @@ public:
    void onResized(Size2i const & newSize);
 
 private:
+   double frametime;
    Mat4f viewMat;
    Mat4f projectionMat;
 

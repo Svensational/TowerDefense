@@ -3,12 +3,12 @@
 #include "gl_core_4_4.h"
 
 BufferObject::BufferObject() :
-   name(0), target(ARRAY_BUFFER), count(0)
+   name(0), target(ARRAY_BUFFER), count(0u)
 {
    glGenBuffers(1, &name);
 }
 
-BufferObject::BufferObject(unsigned int name, Target target, int count) :
+BufferObject::BufferObject(unsigned int name, Target target, unsigned int count) :
    name(name), target(target), count(count)
 {
    // don't create buffer since this is only for the initialization of subclasses
@@ -29,7 +29,7 @@ void BufferObject::bind(Target target) {
    glBindBuffer(target, name);
 }
 
-void BufferObject::createStorage(Usage usage, int count, int entrySize, void const * data) {
+void BufferObject::createStorage(Usage usage, unsigned int count, int entrySize, void const * data) {
    BufferObject::count = count;
    glBufferData(target, count*entrySize, data, usage);
 }
@@ -38,20 +38,12 @@ void BufferObject::drawArrays(Mode mode) const {
    glDrawArrays(mode, 0, count);
 }
 
-void BufferObject::drawElements(Mode mode, unsigned int entrySize) const {
-   unsigned int type;
-   switch (entrySize) {
-   case 1:
-      type = GL_UNSIGNED_BYTE;
-      break;
-   case 2:
-      type = GL_UNSIGNED_SHORT;
-      break;
-   default:
-      type = GL_UNSIGNED_INT;
-      break;
-   }
+void BufferObject::drawElements(Mode mode, IBOType type, unsigned int count) const {
    glDrawElements(mode, count, type, 0);
+}
+
+unsigned int BufferObject::getCount() const {
+   return count;
 }
 
 void * BufferObject::map(Access access) const {

@@ -54,24 +54,31 @@ public:
       PATCHES                  = 0x000E
    };
 
+   enum IBOType {
+      UNSIGNED_BYTE  = 0x1401,
+      UNSIGNED_SHORT = 0x1403,
+      UNSIGNED_INT   = 0x1405
+   };
+
    BufferObject();
    BufferObject(BufferObject && other);
    virtual ~BufferObject();
    BufferObject & operator =(BufferObject && other);
    void bind(Target target);
-   void createStorage(Usage usage, int count, int entrySize, void const * data = nullptr);
+   void createStorage(Usage usage, unsigned int count, int entrySize, void const * data = nullptr);
    void * map(Access access) const;
    void * mapRange(int offset, int length, Access access) const;
    void unmap() const;
+   unsigned int getCount() const;
 
 protected:
    unsigned int name;
    Target target;
-   int count;
+   unsigned int count;
 
-   BufferObject(unsigned int name, Target target, int count);
+   BufferObject(unsigned int name, Target target, unsigned int count);
    void drawArrays(Mode mode) const;
-   void drawElements(Mode mode, unsigned int entrySize) const;
+   void drawElements(Mode mode, IBOType type, unsigned int count) const;
 };
 
 #endif // BUFFEROBJECT_H

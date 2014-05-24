@@ -41,7 +41,8 @@ int GLFWApplication::execute() {
          (*it)->update(deltaTime);
       }
 
-      std::this_thread::sleep_for(std::chrono::milliseconds(std::max(int((0.015-glfwGetTime()+time)*1000.0), 0)));
+      /// @todo FPS cap only deaktivated for benchmark purposes!!!
+      //std::this_thread::sleep_for(std::chrono::milliseconds(std::max(int((0.015-glfwGetTime()+time)*1000.0), 0)));
       deltaTime = glfwGetTime()-time;
       time = glfwGetTime();
 

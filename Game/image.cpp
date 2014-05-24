@@ -10,9 +10,9 @@ Image::Image(Format format, Size2i size, unsigned char * data) :
       if (data) {
          memcpy(this->data, data, size.area()*channelCount());
       }
-      /*else {
+      else {
          memset(this->data, 0u, size.area()*channelCount());
-      }*/
+      }
    }
 }
 

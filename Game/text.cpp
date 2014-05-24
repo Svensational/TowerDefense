@@ -5,15 +5,9 @@
 #include "vertexbufferobject.h"
 #include "indexbufferobject.h"
 
-Text::Text(std::u32string const & text, Font * font) :
-   string(text), font(font), vao(nullptr), vbo(nullptr), ibo(nullptr)
+Text::Text(Font * font, std::u32string const & text) :
+   dynamicHint(text.empty()), string(text), font(font), vao(nullptr), vbo(nullptr), ibo(nullptr)
 {
-   // just for testing
-   string += char32_t('T');
-   string += char32_t('e');
-   string += char32_t('s');
-   string += char32_t('t');
-
    init();
 }
 
@@ -23,9 +17,55 @@ Text::~Text() {
    delete vbo;
 }
 
-void Text::createBuffers() {
+void Text::init() {
+   vbo = new VBO<Pos2f_Tex2f>();
+   ibo = new IBO<unsigned short>();
+
+   if (!string.empty()) {
+      setString(string);
+   }
+   else {
+      vbo->bind();
+   }
+
+   // init VAO
+   vao = new VertexArrayObject();
+   vao->bind();
+
+   vao->enableVertexAttributeArray(0);
+   vao->vertexAttributePointer(0, 2, GL_FLOAT, false, vbo->elementSize(), 0);
+
+   vao->enableVertexAttributeArray(3);
+   vao->vertexAttributePointer(3, 2, GL_FLOAT, false, vbo->elementSize(), 2*sizeof(float));
+}
+
+void Text::render() {
+   vao->bind();
+   ibo->bind();
+   ibo->draw(BufferObject::TRIANGLE_STRIP, string.size()*5);
+}
+
+void Text::setString(std::string const & text) {
+   std::u32string string = U"";
+   for (char c : text) {
+      string += char32_t(c);
+   }
+   setString(string);
+}
+
+void Text::setString(std::u32string const & text) {
+   string = text;
    vbo->bind();
-   vbo->createStorage(BufferObject::STATIC_DRAW, string.size()*4);
+   ibo->bind();
+
+   if (string.size()*5 > ibo->getCount()) {
+      // (re)create buffers
+      BufferObject::Usage usage = dynamicHint ? BufferObject::DYNAMIC_DRAW : BufferObject::STATIC_DRAW;
+      vbo->createStorage(usage, string.size()*4);
+      ibo->createStorage(usage, string.size()*5);
+   }
+
+   // set buffer content
    auto * iv = vbo->map(BufferObject::WRITE_ONLY);
    Font::Glyph glyph;
    Point2f pen(0.0f, 0.0f);
@@ -56,38 +96,13 @@ void Text::createBuffers() {
    }
    vbo->unmap();
 
-   ibo->bind();
-   ibo->createStorage(BufferObject::STATIC_DRAW, string.size()*5);
    auto * ii = ibo->map(BufferObject::WRITE_ONLY);
    for (unsigned int i=0; i<=string.size(); ++i) {
       *ii++ = i*4 + 3;
       *ii++ = i*4 + 0;
       *ii++ = i*4 + 2;
       *ii++ = i*4 + 1;
-      *ii++ = 65535;
+      *ii++ = 65535u;
    }
    ibo->unmap();
-
-   // init VAO
-   vao = new VertexArrayObject();
-   vao->bind();
-
-   vao->enableVertexAttributeArray(0);
-   vao->vertexAttributePointer(0, 2, GL_FLOAT, false, vbo->elementSize(), 0);
-
-   vao->enableVertexAttributeArray(3);
-   vao->vertexAttributePointer(3, 2, GL_FLOAT, false, vbo->elementSize(), 2*sizeof(float));
-}
-
-void Text::init() {
-   vbo = new VBO<Pos2f_Tex2f>();
-   ibo = new IBO<unsigned short>();
-
-   createBuffers();
-}
-
-void Text::render() {
-   vao->bind();
-   ibo->bind();
-   ibo->draw(BufferObject::TRIANGLE_STRIP);
 }
