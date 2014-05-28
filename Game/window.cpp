@@ -2,7 +2,6 @@
 #include "gl_core_4_4.h"
 
 #include "sphere.h"
-#include "font.h"
 #include "text.h"
 #include "textrenderer.h"
 
@@ -40,9 +39,8 @@ void Window::update(double deltaTime) {
    //sphere.render(projectionMat*viewMat, viewMat, deltaTime);
 
    static int pass = 0;
-   static Font font("fonts/text.ttf");
    static TextRenderer textRenderer;
-   static Text text(&font);
+   static Text text("text");
    if (pass == 0) textRenderer.addText(&text);
    ++pass;
 

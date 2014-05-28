@@ -20,6 +20,7 @@ public:
 
    explicit Font(std::string const & filename, unsigned short pixelSize = 128u);
    virtual ~Font();
+   bool isNull() const;
    Glyph const & getGlyph(unsigned int unicode);
    Vec2f getKerning(unsigned int a, unsigned int b);
    void bindToTIU(unsigned short textureImageUnit) const;

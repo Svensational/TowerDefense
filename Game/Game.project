@@ -74,6 +74,8 @@
     <File Name="text.cpp"/>
     <File Name="textrenderer.h"/>
     <File Name="textrenderer.cpp"/>
+    <File Name="resourcemanager.h"/>
+    <File Name="resourcemanager.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
     <File Name="../.gitignore"/>

@@ -12,7 +12,7 @@ Font::Font(std::string const & filename, unsigned short pixelSize) :
    init(filename);
 
    // init with common glyphs
-   initMap();
+   //initMap();
 }
 
 Font::~Font() {
@@ -69,10 +69,14 @@ void Font::addGlyph(unsigned int unicode) {
 }
 
 void Font::bindToTIU(unsigned short textureImageUnit) const {
-   texture->bindToTIU(textureImageUnit);
+   if (texture) {
+      texture->bindToTIU(textureImageUnit);
+   }
 }
 
 Font::Glyph const & Font::getGlyph(unsigned int unicode) {
+   if (isNull()) return glyphs[0];
+
    if (!glyphs.count(unicode)) {
       addGlyph(unicode);
       updateVRAM();
@@ -81,6 +85,8 @@ Font::Glyph const & Font::getGlyph(unsigned int unicode) {
 }
 
 Vec2f Font::getKerning(unsigned int a, unsigned int b) {
+   if (isNull()) return Vec2f();
+
    if (!kernings.count(std::pair<unsigned int, unsigned int>(a, b))) {
       FT_Vector kerning;
       FT_Get_Kerning(face, FT_Get_Char_Index(face, a), FT_Get_Char_Index(face, b), FT_KERNING_UNFITTED, &kerning);
@@ -92,13 +98,17 @@ Vec2f Font::getKerning(unsigned int a, unsigned int b) {
 }
 
 void Font::init(std::string const & filename) {
+   FT_Error error = 0;
+
    // Init freeType
    if (!library) {
       // initialize library
-      FT_Init_FreeType(&library);
+      error = FT_Init_FreeType(&library);
    }
+   if (error) return;
    // load font face from file
-   FT_New_Face(library, filename.c_str(), 0, &face);
+   error = FT_New_Face(library, filename.c_str(), 0, &face);
+   if (error) return;
    // set pixel size
    FT_Set_Pixel_Sizes(face, 0, pixelSize);
 
@@ -119,6 +129,10 @@ void Font::initMap() {
       addGlyph(i);
    }
    updateVRAM();
+}
+
+bool Font::isNull() const {
+   return !face;
 }
 
 void Font::updateVRAM() {

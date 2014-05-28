@@ -5,6 +5,7 @@
 #include "programobject.h"
 #include "font.h"
 #include "text.h"
+#include "resourcemanager.h"
 
 TextRenderer::TextRenderer() :
    program(nullptr), textColorLocation(0), mvpLocation(0)
@@ -17,7 +18,7 @@ TextRenderer::~TextRenderer() {
 }
 
 void TextRenderer::addText(Text * text) {
-   texts.insert(std::pair<std::string, Text *>("FONTNAME", text));
+   texts.insert(std::pair<std::string, Text*>(text->fontname, text));
 }
 
 void TextRenderer::init() {
@@ -48,11 +49,17 @@ void TextRenderer::render(Mat4f const & vpMat) const {
    glPrimitiveRestartIndex(65535);
    program->use();
 
+   Font * font;
 
    for (unsigned int i=0; i<texts.bucket_count(); ++i) {
       if (texts.bucket_size(i)) {
-         /// @todo font should be moved to a global ressource manager
-         texts.begin(i)->second->font->bindToTIU(0);
+         font = ResourceManager::getGlobalInstance()->getFont(texts.begin(i)->first);
+         if (font) {
+            font->bindToTIU(0);
+         }
+         else {
+            break;
+         }
          for (auto local_it=texts.begin(i); local_it!=texts.end(i); ++local_it) {
             program->setUniform(textColorLocation, Vec3f(1.0f, 0.5f, 0.5f));
             program->setUniform(mvpLocation, vpMat*local_it->second->modelMat);

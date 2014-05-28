@@ -1,12 +1,13 @@
 #include "text.h"
-#include "font.h"
 #include "gl_core_4_4.h"
 #include "vertexarrayobject.h"
 #include "vertexbufferobject.h"
 #include "indexbufferobject.h"
+#include "font.h"
+#include "resourcemanager.h"
 
-Text::Text(Font * font, std::u32string const & text) :
-   dynamicHint(text.empty()), string(text), font(font), vao(nullptr), vbo(nullptr), ibo(nullptr)
+Text::Text(std::string const & fontname, std::u32string const & text) :
+   dynamicHint(text.empty()), string(text), fontname(fontname), vao(nullptr), vbo(nullptr), ibo(nullptr)
 {
    init();
 }
@@ -57,6 +58,9 @@ void Text::setString(std::u32string const & text) {
    string = text;
    vbo->bind();
    ibo->bind();
+
+   Font * font = ResourceManager::getGlobalInstance()->getFont(fontname);
+   if (!font) return;
 
    if (string.size()*5 > ibo->getCount()) {
       // (re)create buffers

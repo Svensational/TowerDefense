@@ -15,7 +15,7 @@ public:
    void render(Mat4f const & vpMat) const;
 
 private:
-   std::unordered_multimap<std::string, Text *> texts;
+   std::unordered_multimap<std::string, Text*> texts;
    ProgramObject * program;
    int textColorLocation;
    int mvpLocation;
