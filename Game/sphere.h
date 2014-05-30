@@ -6,9 +6,10 @@
 #include "vertexarrayobject.h"
 #include "vertexbufferobject.h"
 #include "indexbufferobject.h"
-#include "programobject.h"
-#include "texture2d.h"
 #include "vertex.h"
+
+class Texture2D;
+class ProgramObject;
 
 class Sphere {
 
@@ -24,13 +25,11 @@ private:
    VAO vao;
    VBO<Pos3f_Nor3f_Tan3f_Tex2f> vbo;
    IBOus ibo;
-   ProgramObject program;
-   Texture2D texture;
-   Texture2D normalMap;
+   ProgramObject * program;
+   Texture2D * texture;
+   Texture2D * normalMap;
 
    void createBuffers();
-   void loadProgram();
-   void loadTexture();
 };
 
 #endif // SPHERE_H

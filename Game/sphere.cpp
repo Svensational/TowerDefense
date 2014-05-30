@@ -1,18 +1,29 @@
 #include "sphere.h"
 #include <cmath>
 #include "gl_core_4_4.h"
-#include "shaderobject.h"
 #include "renderbufferobject.h"
 #include "framebufferobject.h"
+#include "shaderobject.h"
+#include "programobject.h"
+#include "texture2d.h"
+#include "resourcemanager.h"
 
-#include <iostream>
+//#include <iostream>
 
 Sphere::Sphere(Point3f const & pos, float size) :
    angle(0.0f),
-   modelMat(Mat4f::translation(Vec3f(pos)) * Mat4f::scaling(size, size, size))
+   modelMat(Mat4f::translation(Vec3f(pos)) * Mat4f::scaling(size, size, size)),
+   program(ResourceManager::getGlobalInstance()->getProgram("normalmapped")),
+   texture(ResourceManager::getGlobalInstance()->getTexture("test")),
+   normalMap(ResourceManager::getGlobalInstance()->getTexture("test_n"))
 {
-   loadTexture();
-   loadProgram();
+   if (program) {
+      program->use();
+      program->setUniform("lightDir", Vec3f(1.0f, -1.0f, -1.0f));
+      program->setUniform("lightColor", Vec3f(1.0f, 1.0f, 1.0f));
+      program->setUniform("textureSampler", 0);
+      program->setUniform("normalMapSampler", 1);
+   }
    createBuffers();
 }
 
@@ -69,69 +80,25 @@ void Sphere::createBuffers() {
    vao.vertexAttributePointer(3, 2, GL_FLOAT, false, vbo.elementSize(), 9*sizeof(float));
 }
 
-void Sphere::loadProgram() {
-   ShaderObject vertexShader(ShaderObject::VERTEX_SHADER);
-   vertexShader.loadSource("shaders/normalmapped.vertex.glsl");
-   vertexShader.compile();
-   std::cout << vertexShader.getLog() << std::endl;
-
-   ShaderObject fragmentShader(ShaderObject::FRAGMENT_SHADER);
-   fragmentShader.loadSource("shaders/normalmapped.fragment.glsl");
-   fragmentShader.compile();
-   std::cout << fragmentShader.getLog() << std::endl;
-
-   program.attachShader(vertexShader);
-   program.attachShader(fragmentShader);
-   program.link();
-   std::cout << program.getLog() << std::endl;
-   program.detachShader(vertexShader);
-   program.detachShader(fragmentShader);
-
-   program.use();
-   program.setUniform("lightDir", Vec3f(1.0f, -1.0f, -1.0f));
-   program.setUniform("lightColor", Vec3f(1.0f, 1.0f, 1.0f));
-   program.setUniform("textureSampler", 0);
-   program.setUniform("normalMapSampler", 1);
-}
-
-void Sphere::loadTexture() {
-   Image image;
-   image.loadPNG("images/test.png");
-   texture.bind();
-   texture.createStorage(image.getSize());
-   texture.setImage(image);
-   texture.generateMipmaps();
-   texture.setMinFilter(Texture::LINEAR, Texture::LINEAR);
-   texture.setMagFilter(Texture::LINEAR);
-   texture.setMaxAnisotropy();
-
-   image.loadPNG("images/test_n.png");
-   normalMap.bind();
-   normalMap.createStorage(image.getSize());
-   normalMap.setImage(image);
-   normalMap.generateMipmaps();
-   normalMap.setMinFilter(Texture::LINEAR, Texture::LINEAR);
-   normalMap.setMagFilter(Texture::LINEAR);
-   normalMap.setMaxAnisotropy();
-}
-
 void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat, double deltaTime) {
    angle += deltaTime*15.0f; // rotate by 15 degree per second
    if (angle > 360.0) angle -= 360.0;
+
+   if (!program || !texture || !normalMap) return;
 
    glEnable(GL_PRIMITIVE_RESTART);
    glPrimitiveRestartIndex(65535);
    vao.bind();
    vbo.bind();
    ibo.bind();
-   texture.bindToTIU(0);
-   normalMap.bindToTIU(1);
-   program.use();
+   texture->bindToTIU(0);
+   normalMap->bindToTIU(1);
+   program->use();
    Mat4f rot = Mat4f::rotation(angle, Vec3f(0.0f, 1.0f, 0.0f)) *
                Mat4f::rotation(90.0, Vec3f(1.0f, 0.0f, 0.0f));
-   program.setUniform("mv", vMat*rot*modelMat);
-   program.setUniform("v", vMat);
-   program.setUniform("mvp", vpMat*rot*modelMat);
+   program->setUniform("mv", vMat*rot*modelMat);
+   program->setUniform("v", vMat);
+   program->setUniform("mvp", vpMat*rot*modelMat);
    ibo.draw(BufferObject::TRIANGLE_STRIP);
    glDisable(GL_PRIMITIVE_RESTART);
 }

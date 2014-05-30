@@ -83,12 +83,12 @@
     <File Name="../README.md"/>
   </VirtualDirectory>
   <VirtualDirectory Name="Shader">
-    <File Name="../bin/shaders/default.fragment.glsl"/>
-    <File Name="../bin/shaders/default.vertex.glsl"/>
-    <File Name="../bin/shaders/normalmapped.fragment.glsl"/>
-    <File Name="../bin/shaders/normalmapped.vertex.glsl"/>
-    <File Name="../bin/shaders/text.fragment.glsl"/>
-    <File Name="../bin/shaders/text.vertex.glsl"/>
+    <File Name="../bin/shaders/default.frag.glsl"/>
+    <File Name="../bin/shaders/default.vert.glsl"/>
+    <File Name="../bin/shaders/normalmapped.frag.glsl"/>
+    <File Name="../bin/shaders/normalmapped.vert.glsl"/>
+    <File Name="../bin/shaders/text.frag.glsl"/>
+    <File Name="../bin/shaders/text.vert.glsl"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

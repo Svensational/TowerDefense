@@ -2,6 +2,8 @@
 #include "font.h"
 #include "shaderobject.h"
 #include "programobject.h"
+#include "image.h"
+#include "texture2d.h"
 
 ResourceManager::ResourceManager()
 {
@@ -10,17 +12,24 @@ ResourceManager::ResourceManager()
 ResourceManager::~ResourceManager() {
    deleteFonts();
    deletePrograms();
+   deleteTextures();
 }
 
 void ResourceManager::deleteFonts() {
-   for (auto & font : fonts) {
-      delete font.second;
+   for (auto & element : fonts) {
+      delete element.second;
    }
 }
 
 void ResourceManager::deletePrograms() {
-   for (auto & program : programs) {
-      delete program.second;
+   for (auto & element : programs) {
+      delete element.second;
+   }
+}
+
+void ResourceManager::deleteTextures() {
+   for (auto & element : textures) {
+      delete element.second;
    }
 }
 
@@ -44,11 +53,11 @@ Font * const ResourceManager::getFont(std::string const & name) {
 ProgramObject * const ResourceManager::getProgram(std::string const & name) {
    if (programs.count(name) == 0) {
       ShaderObject vertexShader(ShaderObject::VERTEX_SHADER);
-      vertexShader.loadSource("shaders/"+name+".vertex.glsl");
+      vertexShader.loadSource("shaders/"+name+".vert.glsl");
       vertexShader.compile();
 
       ShaderObject fragmentShader(ShaderObject::FRAGMENT_SHADER);
-      fragmentShader.loadSource("shaders/"+name+".fragment.glsl");
+      fragmentShader.loadSource("shaders/"+name+".frag.glsl");
       fragmentShader.compile();
 
       ProgramObject * program = new ProgramObject();
@@ -65,3 +74,31 @@ ProgramObject * const ResourceManager::getProgram(std::string const & name) {
    }
    return programs[name];
 }
+
+Texture2D * const ResourceManager::getTexture(std::string const & name) {
+   if (textures.count(name) == 0) {
+      Image image;
+      image.loadPNG("images/"+name+".png");
+      Texture2D * texture = nullptr;
+      if (!image.isNull()) {
+         texture = new Texture2D();
+         texture->bind();
+         texture->createStorage(image.getSize());
+         texture->setImage(image);
+         texture->generateMipmaps();
+         texture->setMinFilter(Texture::LINEAR, Texture::LINEAR);
+         texture->setMagFilter(Texture::LINEAR);
+         texture->setMaxAnisotropy();
+         if (!texture->isCreated()) {
+            delete texture;
+            texture = nullptr;
+         }
+      }
+      textures.insert(std::pair<std::string, Texture2D*>(name, texture));
+   }
+   return textures[name];
+}
+
+
+
+
