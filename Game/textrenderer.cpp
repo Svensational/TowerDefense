@@ -1,20 +1,19 @@
 #include "textrenderer.h"
 #include "gl_core_4_4.h"
 #include "vertex.h"
-#include "shaderobject.h"
 #include "programobject.h"
 #include "font.h"
 #include "text.h"
 #include "resourcemanager.h"
 
 TextRenderer::TextRenderer() :
-   program(nullptr), textColorLocation(0), mvpLocation(0)
+   program(ResourceManager::getGlobalInstance()->getProgram("text")),
+   textColorLocation(0), mvpLocation(0)
 {
    init();
 }
 
 TextRenderer::~TextRenderer() {
-   delete program;
 }
 
 void TextRenderer::addText(Text * text) {
@@ -22,29 +21,16 @@ void TextRenderer::addText(Text * text) {
 }
 
 void TextRenderer::init() {
-   // init program
-   ShaderObject vertexShader(ShaderObject::VERTEX_SHADER);
-   vertexShader.loadSource("shaders/text.vertex.glsl");
-   vertexShader.compile();
-
-   ShaderObject fragmentShader(ShaderObject::FRAGMENT_SHADER);
-   fragmentShader.loadSource("shaders/text.fragment.glsl");
-   fragmentShader.compile();
-
-   program = new ProgramObject();
-   program->attachShader(vertexShader);
-   program->attachShader(fragmentShader);
-   program->link();
-   program->detachShader(vertexShader);
-   program->detachShader(fragmentShader);
-
-   program->use();
-   program->setUniform("textTexture", 0);
-   textColorLocation = program->getUniformLocation("textColor");
-   mvpLocation = program->getUniformLocation("mvp");
+   if (program) {
+      program->use();
+      program->setUniform("textTexture", 0);
+      textColorLocation = program->getUniformLocation("textColor");
+      mvpLocation = program->getUniformLocation("mvp");
+   }
 }
 
 void TextRenderer::render(Mat4f const & vpMat) const {
+   if (!program) return;
    glEnable(GL_PRIMITIVE_RESTART);
    glPrimitiveRestartIndex(65535);
    program->use();

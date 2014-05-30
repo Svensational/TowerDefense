@@ -12,7 +12,9 @@ Font::Font(std::string const & filename, unsigned short pixelSize) :
    init(filename);
 
    // init with common glyphs
-   //initMap();
+   if (face) {
+      initMap();
+   }
 }
 
 Font::~Font() {
