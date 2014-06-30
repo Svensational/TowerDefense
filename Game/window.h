@@ -4,18 +4,21 @@
 #include "glfwwindow.h"
 #include "mat4f.h"
 
+class Overlay;
+
 class Window : public GLFWWindow {
 
 public:
    Window();
    ~Window();
-   void update(double deltaTime);
+   void onUpdate(double deltaTime);
    void onResized(Size2i const & newSize);
 
 private:
    double frametime;
    Mat4f viewMat;
    Mat4f projectionMat;
+   Overlay * overlay;
 
    void initGL();
 };

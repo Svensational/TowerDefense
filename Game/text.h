@@ -5,26 +5,25 @@
 #include <sstream>
 #include "mat4f.h"
 #include "vertex.h"
+#include "bufferobject.forward.h"
 
 class VertexArrayObject;
-template <typename T> class VertexBufferObject;
-template <typename T> class IndexBufferObject;
 
 class Text {
 
    friend class TextRenderer;
 
 public:
-   Text(std::string const & fontname, std::u32string const & text = std::u32string());
+   Text(Mat4f const & transformation, std::string const & fontname = "text", std::u32string const & text = std::u32string());
    void setString(std::u32string const & text);
    void setString(std::string const & text);
    virtual ~Text();
 
 private:
    bool dynamicHint;
-   std::u32string string;
    Mat4f modelMat;
    std::string fontname;
+   std::u32string string;
    VertexArrayObject * vao;
    VertexBufferObject<Pos2f_Tex2f> * vbo;
    IndexBufferObject<unsigned short> * ibo;

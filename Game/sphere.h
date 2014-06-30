@@ -20,7 +20,7 @@ public:
    void renderAndSave(Mat4f const & vpMat, Mat4f const & vMat);
 
 private:
-   float angle;
+   double angle;
    Mat4f modelMat;
    VAO vao;
    VBO<Pos3f_Nor3f_Tan3f_Tex2f> vbo;

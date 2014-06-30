@@ -5,6 +5,7 @@
 
 GLFWWindow::GLFWWindow(Size2i size, std::string title, bool fullscreen) :
    fullscreen(fullscreen), size(size), windowedSize(fullscreen?Size2i(800, 600):size), title(title),
+   updatetime(0.0), framerate(0.0),
    handle(glfwCreateWindow(size.width(), size.height(), title.c_str(), fullscreen?glfwGetPrimaryMonitor():nullptr, nullptr))
 {
    init();
@@ -121,6 +122,11 @@ void GLFWWindow::onKeyPressed(int key, bool repeat, int modKeys) {
    }
 }
 
+void GLFWWindow::onUpdate(double deltaTime) {
+   makeContextCurrent();
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void GLFWWindow::sizeCallback(GLFWwindow * handle, int width, int height) {
    GLFWWindow * window = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(handle));
    window->size = Size2i(width, height);
@@ -147,8 +153,14 @@ void GLFWWindow::toggleFullscreen() {
    init();
 }
 
-void GLFWWindow::update(double deltaTime) {
-   makeContextCurrent();
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+void GLFWWindow::update() {
+   static double time = glfwGetTime()-0.001;
+   double deltaTime = glfwGetTime()-time;
+   time = glfwGetTime();
+
+   onUpdate(deltaTime);
+
+   updatetime = 0.99*updatetime + 10.0*(glfwGetTime()-time);
+   framerate = 0.99*framerate + 0.01/deltaTime;
    swapBuffers();
 }

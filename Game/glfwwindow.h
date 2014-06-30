@@ -14,13 +14,15 @@ public:
    virtual ~GLFWWindow();
    bool isValid() const;
    void toggleFullscreen();
-   virtual void update(double deltaTime);
+   void update();
 
 protected:
    bool fullscreen;
    Size2i size;
    Size2i windowedSize;
    std::string title;
+   double updatetime;
+   double framerate;
 
    void makeContextCurrent();
    void enableVSync(bool enable = true);
@@ -28,6 +30,7 @@ protected:
    void swapBuffers();
    void destroy();
    virtual void initGL() {};
+   virtual void onUpdate(double deltaTime);
    virtual void onClosed();
    virtual void onResized(Size2i const & newSize) {};
    virtual void onFocusGained() {};

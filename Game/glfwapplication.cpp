@@ -34,16 +34,13 @@ void GLFWApplication::collectGarbage() {
 
 int GLFWApplication::execute() {
    double time = glfwGetTime();
-   double deltaTime = 0.015;
 
    while (!windows.empty()) {
       for (auto it=windows.cbegin(); it!=windows.cend(); ++it) {
-         (*it)->update(deltaTime);
+         (*it)->update();
       }
 
-      /// @todo FPS cap only deaktivated for benchmark purposes!!!
-      //std::this_thread::sleep_for(std::chrono::milliseconds(std::max(int((0.015-glfwGetTime()+time)*1000.0), 0)));
-      deltaTime = glfwGetTime()-time;
+      std::this_thread::sleep_for(std::chrono::milliseconds(std::max(int((0.015-glfwGetTime()+time)*1000.0), 0)));
       time = glfwGetTime();
 
       glfwPollEvents();

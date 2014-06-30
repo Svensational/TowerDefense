@@ -10,7 +10,7 @@ uniform sampler2D textureSampler;
 uniform sampler2D normalMapSampler;
 uniform vec3 lightColor;
 
-out vec3 color;
+out vec4 color;
 
 vec3 calcBumpedNormal() {
    vec3 normal = normalize(normal_camera);
@@ -31,5 +31,5 @@ void main() {
    float diffuse = clamp(dot(n, r), 0, 1);
    float specular = pow(clamp(dot(e, r), 0, 1), 8);
 
-   color = texture(textureSampler, texCoords).rgb * lightColor * (ambient + diffuse + specular);
+   color = vec4(texture(textureSampler, texCoords).rgb * lightColor * (ambient + diffuse + specular), 1.0);
 }

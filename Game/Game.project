@@ -67,15 +67,20 @@
       <File Name="framebufferobject.cpp"/>
       <File Name="renderbufferobject.h"/>
       <File Name="renderbufferobject.cpp"/>
+      <File Name="bufferobject.forward.h"/>
     </VirtualDirectory>
     <File Name="sphere.h"/>
     <File Name="sphere.cpp"/>
     <File Name="text.h"/>
     <File Name="text.cpp"/>
-    <File Name="textrenderer.h"/>
-    <File Name="textrenderer.cpp"/>
     <File Name="resourcemanager.h"/>
     <File Name="resourcemanager.cpp"/>
+    <VirtualDirectory Name="Rendering">
+      <File Name="overlay.h"/>
+      <File Name="overlay.cpp"/>
+      <File Name="textrenderer.h"/>
+      <File Name="textrenderer.cpp"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="etc">
     <File Name="../.gitignore"/>

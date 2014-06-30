@@ -1,13 +1,14 @@
 #include "text.h"
-#include "gl_core_4_4.h"
 #include "vertexarrayobject.h"
 #include "vertexbufferobject.h"
 #include "indexbufferobject.h"
 #include "font.h"
 #include "resourcemanager.h"
 
-Text::Text(std::string const & fontname, std::u32string const & text) :
-   dynamicHint(text.empty()), string(text), fontname(fontname), vao(nullptr), vbo(nullptr), ibo(nullptr)
+Text::Text(Mat4f const & transformation, std::string const & fontname, std::u32string const & text) :
+   dynamicHint(text.empty()), modelMat(transformation),
+   fontname(fontname), string(text),
+   vao(nullptr), vbo(nullptr), ibo(nullptr)
 {
    init();
 }
@@ -34,10 +35,10 @@ void Text::init() {
    vao->bind();
 
    vao->enableVertexAttributeArray(0);
-   vao->vertexAttributePointer(0, 2, GL_FLOAT, false, vbo->elementSize(), 0);
+   vao->vertexAttributePointer(0, 2, VAO::FLOAT, false, vbo->elementSize(), 0);
 
    vao->enableVertexAttributeArray(3);
-   vao->vertexAttributePointer(3, 2, GL_FLOAT, false, vbo->elementSize(), 2*sizeof(float));
+   vao->vertexAttributePointer(3, 2, VAO::FLOAT, false, vbo->elementSize(), 2*sizeof(float));
 }
 
 void Text::render() {
@@ -64,7 +65,8 @@ void Text::setString(std::u32string const & text) {
 
    if (string.size()*5 > ibo->getCount()) {
       // (re)create buffers
-      BufferObject::Usage usage = dynamicHint ? BufferObject::DYNAMIC_DRAW : BufferObject::STATIC_DRAW;
+      // funny thing, but my 8GB RAM / 4GB VRAM rig runs out of memory when hint is STATIC_DRAW
+      BufferObject::Usage usage = BufferObject::DYNAMIC_DRAW;//dynamicHint ? BufferObject::DYNAMIC_DRAW : BufferObject::STATIC_DRAW;
       vbo->createStorage(usage, string.size()*4);
       ibo->createStorage(usage, string.size()*5);
    }

@@ -1,6 +1,8 @@
 #ifndef BUFFEROBJECT_H
 #define BUFFEROBJECT_H
 
+#include "bufferobject.forward.h"
+
 class BufferObject {
 
 public:

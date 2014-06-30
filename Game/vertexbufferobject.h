@@ -50,7 +50,4 @@ public:
    }
 };
 
-template <typename T>
-using VBO = VertexBufferObject<T>;
-
 #endif // VERTEXBUFFEROBJECT_H

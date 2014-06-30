@@ -39,6 +39,6 @@ void VertexArrayObject::unbind() {
    glBindVertexArray(0);
 }
 
-void VertexArrayObject::vertexAttributePointer(unsigned int index, int size, int type, bool normalized, int stride, int offset) const {
+void VertexArrayObject::vertexAttributePointer(unsigned int index, int size, Type type, bool normalized, int stride, int offset) const {
    glVertexAttribPointer(index, size, type, normalized, stride, reinterpret_cast<void*>(offset));
 }

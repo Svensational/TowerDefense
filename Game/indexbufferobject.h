@@ -65,11 +65,4 @@ private:
    IBOType type;
 };
 
-template <typename T>
-using IBO = IndexBufferObject<T>;
-
-using IBOub = IndexBufferObject<unsigned char>;
-using IBOus = IndexBufferObject<unsigned short>;
-using IBOui = IndexBufferObject<unsigned int>;
-
 #endif // INDEXBUFFEROBJECT_H

@@ -68,20 +68,20 @@ void Sphere::createBuffers() {
    ibo.unmap();
 
    vao.enableVertexAttributeArray(0);
-   vao.vertexAttributePointer(0, 3, GL_FLOAT, false, vbo.elementSize(), 0);
+   vao.vertexAttributePointer(0, 3, VAO::FLOAT, false, vbo.elementSize(), 0);
 
    vao.enableVertexAttributeArray(1);
-   vao.vertexAttributePointer(1, 3, GL_FLOAT, false, vbo.elementSize(), 3*sizeof(float));
+   vao.vertexAttributePointer(1, 3, VAO::FLOAT, false, vbo.elementSize(), 3*sizeof(float));
 
    vao.enableVertexAttributeArray(2);
-   vao.vertexAttributePointer(2, 3, GL_FLOAT, false, vbo.elementSize(), 6*sizeof(float));
+   vao.vertexAttributePointer(2, 3, VAO::FLOAT, false, vbo.elementSize(), 6*sizeof(float));
 
    vao.enableVertexAttributeArray(3);
-   vao.vertexAttributePointer(3, 2, GL_FLOAT, false, vbo.elementSize(), 9*sizeof(float));
+   vao.vertexAttributePointer(3, 2, VAO::FLOAT, false, vbo.elementSize(), 9*sizeof(float));
 }
 
 void Sphere::render(Mat4f const & vpMat, Mat4f const & vMat, double deltaTime) {
-   angle += deltaTime*15.0f; // rotate by 15 degree per second
+   angle += deltaTime*15.0; // rotate by 15 degree per second
    if (angle > 360.0) angle -= 360.0;
 
    if (!program || !texture || !normalMap) return;
